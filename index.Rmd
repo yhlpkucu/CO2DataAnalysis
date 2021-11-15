@@ -1,6 +1,6 @@
 --- 
-title: "YOUR TITLE HERE"
-author: "YOUR NAMES HERE"
+title: "CO2 Emission Data Analysis"
+author: "Hanlin Yan"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 ---
