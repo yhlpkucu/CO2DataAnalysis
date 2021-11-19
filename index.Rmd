@@ -1,6 +1,6 @@
 --- 
 title: "CO2 Emission Data Analysis"
-author: "Hanlin Yan"
+author: "Hanlin Yan, Yi Duan, Zining Chen"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 ---
