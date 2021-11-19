@@ -118,8 +118,9 @@ plot_missing <- function(sets, percent){
 plot_missing(monthly_data, TRUE)
 plot_missing(monthly_data, FALSE)
 ```
-
+```
 As shown in the graph above, each inspection station has NA values in its column, while year and month columns don't have missing data. The Alert station has the highest missing percentage and missing count while the Mauna Loa Observatory has the lowest missing percentage and missing count. What's more, the type of missing data is Missing at Random(MAR). We can prove it using the data of Kermadec Island Station and New Zealand Station.
+```
 
 ```{r}
 monthly_co2 %>% select('Yr', 'ker') %>% 
