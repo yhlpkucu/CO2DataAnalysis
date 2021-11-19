@@ -1,6 +1,6 @@
 # Missing values
 
-We use a single file "monthly_flask_co2" as an example to analysis the missing data in our project.
+We use a single file "monthly_flask_co2" as an example to analyze the missing data in our project.
 This file contains monthly co2 data collected from several different inspection stations, whose locations are shown
 in the figure below.
 
