@@ -1,1 +1,142 @@
 # Missing values
+
+We use a single file "monthly_flask_co2" as an example to analysis the missing data in our project.
+This file contains monthly co2 data collected from several different inspection stations, whose locations is shown
+in the figure below.
+
+![Inspection stations](./data/mlo_station_map.png)
+
+Read data from "monthly_flask_co2".
+```{r}
+library(ggplot2)
+library(tidyverse)
+library(patchwork)
+monthly_data = read.csv("./data/monthly_flask_co2.csv")
+monthly_data[1:10,]
+```
+Variable description:
+Yr: year
+Mn: month
+alt: Alert Station
+mlo: Mauna Loa Observatory
+kum: Cape Kumukahi Station
+chr: Christmas Island Station
+sam: American Samoa Station
+ker: Kermadec Island Station
+nzd: New Zealand Station
+
+Firstly, we analysis its missing patterns.
+```{r}
+plot_missing <- function(sets, percent){
+  mysets <- sets
+  #mysets <- HollywoodMovies2011
+  ############## main plot heatmap ############## 
+  missing_patterns <- data.frame(is.na(mysets)) %>%
+    group_by_all() %>%
+    count(name = "count", sort = TRUE) %>%
+    ungroup()
+  
+  patterns_cases <- missing_patterns %>% select(-count) %>% 
+    rownames_to_column("id") %>% gather(key, value, -id)
+
+  #index of complete case pattern
+  y_complete <- which(rowSums(select(missing_patterns, -count)) == 0)
+
+  patterns_cases <- patterns_cases %>% mutate(missing = ifelse(id == y_complete, "none", ifelse(value == 1, "yes", "no")))
+  
+  #count of missing values for each column in the dataset
+  missing_columns <- colSums(is.na(mysets)) %>%
+      sort(decreasing = TRUE) %>% 
+      data.frame()
+  names(missing_columns) <- "n"
+  missing_columns <- rownames_to_column(missing_columns, "key")
+
+  x_text <- ceiling(ncol(mysets)/2)
+  if (nrow(missing_patterns) > 1) {
+    y_text <- nrow(missing_patterns) - y_complete + 1
+  } else {
+    y_text <- 1
+  }
+  
+  patterns_cases$id <- factor(as.numeric(patterns_cases$id))
+  patterns_cases <- merge(patterns_cases, missing_columns, by = "key", all = TRUE)
+
+  g1 <- ggplot(patterns_cases, aes(x = fct_reorder(key, -n), y = fct_rev(id), fill = missing)) +
+    geom_tile(color = "white") + 
+    xlab("variable") +
+    ylab("missing pattern") +
+    scale_fill_manual(values = c("grey", "darkgrey", "purple")) +
+    annotate("text", x = x_text, y = y_text, label = "Complete Cases") +
+    theme(legend.position = "none")
+    #theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+  
+  ############## missing pattern barchart ############## 
+  if (percent) {
+    missing_columns$n <- missing_columns$n /nrow(mysets) * 100
+    missing_patterns$count <- missing_patterns$count /nrow(mysets) * 100
+    text2 <- "% rows\n missing:"
+    text3 <- "% rows"
+    ylim2 <- c(0, 100)
+  } else {
+    text2 <- "num rows\n missing:"
+    text3 <- "row count"
+    ylim2 <- c(0, NA)
+  }
+
+  g2 <- ggplot(missing_columns, aes(fct_reorder(key, -n), n)) +
+    geom_bar(stat="identity",fill="cornflowerblue") +
+    xlab("") +
+    ylab(text2) +
+    ylim(ylim2) +
+    ggtitle("Missing value patterns") +
+    theme_bw() +
+    theme(panel.grid.major.x = element_blank())
+    #theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+  
+  ############## missing pattern count barchart ############## 
+  missing_patterns <- missing_patterns %>% rownames_to_column("id") %>% mutate(complete = ifelse(id == y_complete, "yes", "no"))
+  missing_patterns$id <- factor(as.numeric(missing_patterns$id))
+  
+  g3 <- ggplot(missing_patterns, aes(fct_rev(id), count, fill = complete)) +
+    geom_bar(stat="identity") +
+    xlab("") +
+    ylab(text3) +
+    ylim(ylim2) +
+    scale_fill_manual(values = c("cornflowerblue", "blue")) +
+    theme_bw() +
+    theme(panel.grid.major.y = element_blank(), legend.position = "none") +
+    coord_flip() 
+  
+  ############## final plot ############## 
+  g_final <- g2 + plot_spacer() + g1 + g3 +
+    plot_layout(ncol = 2, nrow = 2, heights = c(1, 3), widths = c(3.5, 1))
+  
+  return(g_final)
+}
+```
+
+```{r}
+plot_missing(monthly_data, TRUE)
+plot_missing(monthly_data, FALSE)
+```
+
+As it shows above, each inspection station has NA values in its column. The Alert station has the highest missing percentage and missing count while the Mauna Loa Observatory has the lowest missing percentage and missing count. What's more, the type of missing data is Missing at Random(MAR). We can prove it use the data of Kermadec Island Station and New Zealand Station.
+
+```{r}
+monthly_data %>% select('Yr', 'ker') %>% 
+  group_by(Yr) %>% mutate(count = sum(is.na(ker))) %>% 
+  ungroup() %>% select('Yr', 'count') %>% unique() %>% 
+  ggplot(aes(x = Yr, y = count)) +
+  geom_bar(stat = 'identity') +
+  ggtitle('Yearly missing data of ker')
+
+monthly_data %>% select('Yr', 'nzd') %>% 
+  group_by(Yr) %>% mutate(count = sum(is.na(nzd))) %>% 
+  ungroup() %>% select('Yr', 'count') %>% unique() %>% 
+  ggplot(aes(x = Yr, y = count)) +
+  geom_bar(stat = 'identity') +
+  ggtitle('Yearly missing data of nzd')
+
+```
+
+We can find before 1975, both stations don't have any data. This trend exists in almost every station. For most stations, the former data has a higher percentage of missing data. However, the missing patterns between stations are still different except for the former year. In ker, the missing data around 2020 is more, while the missing data of nzd around 2020 shows little difference with other years. Thus, the missing data of our dataset is Missing At Random.
