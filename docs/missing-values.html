@@ -24,7 +24,7 @@
 <meta name="author" content="Hanlin Yan" />
 
 
-<meta name="date" content="2021-11-15" />
+<meta name="date" content="2021-11-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -101,6 +101,40 @@
             <section class="normal" id="section-">
 <div id="missing-values" class="section level1" number="4">
 <h1><span class="header-section-number">Chapter 4</span> Missing values</h1>
+<p>We use a single file “monthly_flask_co2” as an example to analysis the missing data in our project.
+This file contains monthly co2 data collected from several different inspection stations, whose locations is shown
+in the figure below.</p>
+<div class="figure">
+<img src="data/mlo_station_map.png" alt="" />
+<p class="caption">Inspection stations</p>
+</div>
+<p>Read data from “monthly_flask_co2”.</p>
+<pre><code>##      Yr Mn alt    mlo kum chr sam ker nzd
+## 1  1960  1 NaN    NaN NaN NaN NaN NaN NaN
+## 2  1960  2 NaN    NaN NaN NaN NaN NaN NaN
+## 3  1960  3 NaN 317.69 NaN NaN NaN NaN NaN
+## 4  1960  4 NaN 319.06 NaN NaN NaN NaN NaN
+## 5  1960  5 NaN    NaN NaN NaN NaN NaN NaN
+## 6  1960  6 NaN    NaN NaN NaN NaN NaN NaN
+## 7  1960  7 NaN    NaN NaN NaN NaN NaN NaN
+## 8  1960  8 NaN 315.74 NaN NaN NaN NaN NaN
+## 9  1960  9 NaN    NaN NaN NaN NaN NaN NaN
+## 10 1960 10 NaN 312.84 NaN NaN NaN NaN NaN</code></pre>
+<p>Variable description:
+Yr: year
+Mn: month
+alt: Alert Station
+mlo: Mauna Loa Observatory
+kum: Cape Kumukahi Station
+chr: Christmas Island Station
+sam: American Samoa Station
+ker: Kermadec Island Station
+nzd: New Zealand Station</p>
+<p>Firstly, we analysis its missing patterns.</p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-7-1.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-7-2.png" width="672" /></p>
+<p>As it shows above, each inspection station has NA values in its column. The Alert station has the highest missing percentage and missing count while the Mauna Loa Observatory has the lowest missing percentage and missing count. What’s more, the type of missing data is Missing at Random(MAR). We can prove it use the data of Kermadec Island Station and New Zealand Station.</p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-8-1.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-8-2.png" width="672" /></p>
+<p>We can find before 1975, both stations don’t have any data. This trend exists in almost every station. For most stations, the former data has a higher percentage of missing data. However, the missing patterns between stations are still different except for the former year. In ker, the missing data around 2020 is more, while the missing data of nzd around 2020 shows little difference with other years. Thus, the missing data of our dataset is Missing At Random.</p>
 
 </div>
             </section>
