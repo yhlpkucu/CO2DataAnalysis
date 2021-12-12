@@ -74,7 +74,11 @@
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
-<li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a></li>
+<li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="data-sources.html"><a href="data-sources.html#monthly-average-co2-concentrations"><i class="fa fa-check"></i><b>2.1</b> Monthly average CO2 concentrations</a></li>
+<li class="chapter" data-level="2.2" data-path="data-sources.html"><a href="data-sources.html#seawater-carbon-data"><i class="fa fa-check"></i><b>2.2</b> Seawater Carbon Data</a></li>
+</ul></li>
 <li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a></li>
 <li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a></li>
 <li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a></li>
@@ -101,7 +105,225 @@
             <section class="normal" id="section-">
 <div id="data-sources" class="section level1" number="2">
 <h1><span class="header-section-number">Chapter 2</span> Data sources</h1>
+<p>The data sources of this project are from <a href="https://scrippsco2.ucsd.edu">*Scipps CO2 Program</a></p>
+<div id="monthly-average-co2-concentrations" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Monthly average CO2 concentrations</h2>
+<p>**Dataset : monthly_flask_co2___.csv**</p>
+<p>Atmospheric CO2 Data collected from active sampling station</p>
+<table>
+<caption><span id="tab:unnamed-chunk-3">Table 2.1: </span>Sampling stations</caption>
+<thead>
+<tr class="header">
+<th align="left">Station Name</th>
+<th align="left">Station Code</th>
+<th align="left">Latitude</th>
+<th align="left">Longitude</th>
+<th align="right">Elevation (m)</th>
+<th align="left">Dates</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Alert, NWT, Canada</td>
+<td align="left">ALT</td>
+<td align="left">82.3 °N</td>
+<td align="left">62.3 °W</td>
+<td align="right">210</td>
+<td align="left">1985 - present</td>
+</tr>
+<tr class="even">
+<td align="left">Point Barrow, Alaska</td>
+<td align="left">PTB</td>
+<td align="left">71.3 °N</td>
+<td align="left">156.6 °W</td>
+<td align="right">11</td>
+<td align="left">1961 - present</td>
+</tr>
+<tr class="odd">
+<td align="left">La Jolla Pier, California</td>
+<td align="left">LJO</td>
+<td align="left">32.9 °N</td>
+<td align="left">117.3 °W</td>
+<td align="right">10</td>
+<td align="left">1957 - present</td>
+</tr>
+<tr class="even">
+<td align="left">Mauna Loa Observatory, Hawaii</td>
+<td align="left">MLO</td>
+<td align="left">19.5 °N</td>
+<td align="left">155.6 °W</td>
+<td align="right">3397</td>
+<td align="left">1958 - present</td>
+</tr>
+<tr class="odd">
+<td align="left">Cape Kumukahi, Hawaii</td>
+<td align="left">KUM</td>
+<td align="left">19.5 °N</td>
+<td align="left">154.8 °W</td>
+<td align="right">3</td>
+<td align="left">1979 - present</td>
+</tr>
+<tr class="even">
+<td align="left">Fanning Island</td>
+<td align="left">FAN</td>
+<td align="left">3.9 °N</td>
+<td align="left">159.4 °W</td>
+<td align="right">3</td>
+<td align="left">1977 - present</td>
+</tr>
+<tr class="odd">
+<td align="left">Christmas Island</td>
+<td align="left">CHR</td>
+<td align="left">2.0 °N</td>
+<td align="left">157.3 °W</td>
+<td align="right">2</td>
+<td align="left">1974 - present</td>
+</tr>
+<tr class="even">
+<td align="left">American Samoa</td>
+<td align="left">SAM</td>
+<td align="left">14.2 °S</td>
+<td align="left">170.6 °W</td>
+<td align="right">30</td>
+<td align="left">1981 - present</td>
+</tr>
+<tr class="odd">
+<td align="left">Kermadec Island</td>
+<td align="left">KER</td>
+<td align="left">29.2 °S</td>
+<td align="left">177.9 °W</td>
+<td align="right">2</td>
+<td align="left">1982 -present</td>
+</tr>
+<tr class="even">
+<td align="left">Baring Head, New Zealand</td>
+<td align="left">NZD</td>
+<td align="left">41.4 °S</td>
+<td align="left">174.9 °E</td>
+<td align="right">85</td>
+<td align="left">1977 - present</td>
+</tr>
+<tr class="odd">
+<td align="left">South Pole</td>
+<td align="left">SPO</td>
+<td align="left">90.0 °S</td>
+<td align="left">NA</td>
+<td align="right">2810</td>
+<td align="left">1957 - present</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Issues with this dataset: </strong></p>
+<p>All stations are located in the pacific area along having similar longitude.</p>
+</div>
+<div id="seawater-carbon-data" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Seawater Carbon Data</h2>
+<p><strong>Dataset : BATS.csv BERM.csv HAWI.csv</strong></p>
+<table>
+<caption><span id="tab:unnamed-chunk-4">Table 2.2: </span>Seawater Carbon Data in Bermuda Atlantic Time-series Station</caption>
+<thead>
+<tr class="header">
+<th align="left">Station Name</th>
+<th align="left">Station Code</th>
+<th align="left">Latitude</th>
+<th align="left">Longitude</th>
+<th align="right">Elevation (m)</th>
+<th align="left">Dates</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Alert, NWT, Canada</td>
+<td align="left">ALT</td>
+<td align="left">82.3 °N</td>
+<td align="left">62.3 °W</td>
+<td align="right">210</td>
+<td align="left">1985 - present</td>
+</tr>
+<tr class="even">
+<td align="left">Point Barrow, Alaska</td>
+<td align="left">PTB</td>
+<td align="left">71.3 °N</td>
+<td align="left">156.6 °W</td>
+<td align="right">11</td>
+<td align="left">1961 - present</td>
+</tr>
+<tr class="odd">
+<td align="left">La Jolla Pier, California</td>
+<td align="left">LJO</td>
+<td align="left">32.9 °N</td>
+<td align="left">117.3 °W</td>
+<td align="right">10</td>
+<td align="left">1957 - present</td>
+</tr>
+<tr class="even">
+<td align="left">Mauna Loa Observatory, Hawaii</td>
+<td align="left">MLO</td>
+<td align="left">19.5 °N</td>
+<td align="left">155.6 °W</td>
+<td align="right">3397</td>
+<td align="left">1958 - present</td>
+</tr>
+<tr class="odd">
+<td align="left">Cape Kumukahi, Hawaii</td>
+<td align="left">KUM</td>
+<td align="left">19.5 °N</td>
+<td align="left">154.8 °W</td>
+<td align="right">3</td>
+<td align="left">1979 - present</td>
+</tr>
+<tr class="even">
+<td align="left">Fanning Island</td>
+<td align="left">FAN</td>
+<td align="left">3.9 °N</td>
+<td align="left">159.4 °W</td>
+<td align="right">3</td>
+<td align="left">1977 - present</td>
+</tr>
+<tr class="odd">
+<td align="left">Christmas Island</td>
+<td align="left">CHR</td>
+<td align="left">2.0 °N</td>
+<td align="left">157.3 °W</td>
+<td align="right">2</td>
+<td align="left">1974 - present</td>
+</tr>
+<tr class="even">
+<td align="left">American Samoa</td>
+<td align="left">SAM</td>
+<td align="left">14.2 °S</td>
+<td align="left">170.6 °W</td>
+<td align="right">30</td>
+<td align="left">1981 - present</td>
+</tr>
+<tr class="odd">
+<td align="left">Kermadec Island</td>
+<td align="left">KER</td>
+<td align="left">29.2 °S</td>
+<td align="left">177.9 °W</td>
+<td align="right">2</td>
+<td align="left">1982 -present</td>
+</tr>
+<tr class="even">
+<td align="left">Baring Head, New Zealand</td>
+<td align="left">NZD</td>
+<td align="left">41.4 °S</td>
+<td align="left">174.9 °E</td>
+<td align="right">85</td>
+<td align="left">1977 - present</td>
+</tr>
+<tr class="odd">
+<td align="left">South Pole</td>
+<td align="left">SPO</td>
+<td align="left">90.0 °S</td>
+<td align="left">NA</td>
+<td align="right">2810</td>
+<td align="left">1957 - present</td>
+</tr>
+</tbody>
+</table>
 
+</div>
 </div>
             </section>
 

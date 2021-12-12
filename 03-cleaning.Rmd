@@ -48,10 +48,10 @@ monthly_co2 <- merge(monthly_co2,chr_mn,by=c("Yr","Mn"),all=TRUE)
 monthly_co2 <- merge(monthly_co2,sam_mn,by=c("Yr","Mn"),all=TRUE)
 monthly_co2 <- merge(monthly_co2,ker_mn,by=c("Yr","Mn"),all=TRUE)
 monthly_co2 <- merge(monthly_co2,nzd_mn,by=c("Yr","Mn"),all=TRUE)
-monthly_co2[1:10,]
+monthly_co2[613:622,]
 ```
 
-In addition, we want to get the yearly CO2 concentrations for all the stations. So we aggregate station columns and get the sum by each year. We also tidy the data, and we finally get our transformed data.
+In addition, we want to get the yearly CO2 concentrations for all the stations. So we aggregate station columns and get the sum by each year. After we tidy the data, we finally get our transformed data.
 
 ```{r}
 library(tidyr)
