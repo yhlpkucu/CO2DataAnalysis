@@ -67,8 +67,9 @@ yearly_co2 <- merge(yearly_co2,kum_yr,all=TRUE)
 yearly_co2 <- merge(yearly_co2,chr_yr,all=TRUE)
 yearly_co2 <- merge(yearly_co2,sam_yr,all=TRUE)
 yearly_co2 <- merge(yearly_co2,ker_yr,all=TRUE)
+yearly_co2 <- merge(yearly_co2,nzd_yr,all=TRUE)
 yearly_co2_tidy <- yearly_co2 %>%
   pivot_longer(cols = !Yr, names_to = "station", 
                values_to = "CO2_concentration")
-yearly_co2_tidy[1:10,]
+yearly_co2_tidy[351:360,]
 ```
