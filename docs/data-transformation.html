@@ -24,7 +24,7 @@
 <meta name="author" content="Hanlin Yan, Yi Duan, Zining Chen" />
 
 
-<meta name="date" content="2021-11-19" />
+<meta name="date" content="2021-12-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -101,6 +101,68 @@
             <section class="normal" id="section-">
 <div id="data-transformation" class="section level1" number="3">
 <h1><span class="header-section-number">Chapter 3</span> Data transformation</h1>
+<p>First, let’s take a look at our raw data. Take alt as an example, it contains 10 columns. Columns 1-4 provide different formats of dates, so we keep only the year and month columns. Columns 5-10 are monthly CO2 concentrations in different versions that have been adjusted. We only use column 5 in this project because it is the most standard.</p>
+<pre><code>##      Yr Mn Date.Excel     Date CO2..ppm. seasonally..adjusted fit..ppm. seasonally.adjusted.fit..ppm. CO2.filled..ppm.
+## 1  2011  1      40558 2011.041       NaN                  NaN    395.66                        391.44           395.66
+## 2  2011  2      40589 2011.126       NaN                  NaN    396.87                        391.64           396.87
+## 3  2011  3      40617 2011.203       NaN                  NaN    397.54                        391.82           397.54
+## 4  2011  4      40648 2011.288       NaN                  NaN    397.70                        392.03           397.70
+## 5  2011  5      40678 2011.370       NaN                  NaN    397.90                        392.23           397.90
+## 6  2011  6      40709 2011.455       NaN                  NaN    395.29                        392.43           395.29
+## 7  2011  7      40739 2011.537       NaN                  NaN    387.95                        392.63           387.95
+## 8  2011  8      40770 2011.622       NaN                  NaN    381.62                        392.83           381.62
+## 9  2011  9      40801 2011.707    381.93               392.29    382.68                        393.04           381.93
+## 10 2011 10      40831 2011.789    388.07               393.28    388.02                        393.23           388.07
+##    seasonally.adjusted.filled..ppm.
+## 1                            391.44
+## 2                            391.64
+## 3                            391.82
+## 4                            392.03
+## 5                            392.23
+## 6                            392.43
+## 7                            392.63
+## 8                            392.83
+## 9                            392.29
+## 10                           393.28</code></pre>
+<p>So we select year, month, and CO2 ppm columns and rename the last column to the station name because we have C02 concentration data for different stations and we need to separate them. This is what the dataset looks like after our selection.</p>
+<pre><code>##      Yr Mn    alt
+## 1  2011  1    NaN
+## 2  2011  2    NaN
+## 3  2011  3    NaN
+## 4  2011  4    NaN
+## 5  2011  5    NaN
+## 6  2011  6    NaN
+## 7  2011  7    NaN
+## 8  2011  8    NaN
+## 9  2011  9 381.93
+## 10 2011 10 388.07</code></pre>
+<p>Then we do the same thing for all the stations of different locations.</p>
+<p>Next we do an outer join by year and month columns for all the stations, and we have formed the new dataset “monthly_flask_co2” so far.</p>
+<pre><code>##      Yr Mn alt    mlo kum chr sam ker nzd
+## 1  1960  1  NA    NaN  NA  NA  NA  NA  NA
+## 2  1960  2  NA    NaN  NA  NA  NA  NA  NA
+## 3  1960  3  NA 317.69  NA  NA  NA  NA  NA
+## 4  1960  4  NA 319.06  NA  NA  NA  NA  NA
+## 5  1960  5  NA    NaN  NA  NA  NA  NA  NA
+## 6  1960  6  NA    NaN  NA  NA  NA  NA  NA
+## 7  1960  7  NA    NaN  NA  NA  NA  NA  NA
+## 8  1960  8  NA 315.74  NA  NA  NA  NA  NA
+## 9  1960  9  NA    NaN  NA  NA  NA  NA  NA
+## 10 1960 10  NA 312.84  NA  NA  NA  NA  NA</code></pre>
+<p>In addition, we want to get the yearly CO2 concentrations for all the stations. So we aggregate station columns and get the sum by each year. We also tidy the data, and we finally get our transformed data.</p>
+<pre><code>## # A tibble: 10 x 3
+##       Yr station CO2_concentration
+##    &lt;int&gt; &lt;chr&gt;               &lt;dbl&gt;
+##  1  1960 alt                   NA 
+##  2  1960 mlo                 1582.
+##  3  1960 kum                   NA 
+##  4  1960 chr                   NA 
+##  5  1960 sam                   NA 
+##  6  1960 ker                   NA 
+##  7  1961 alt                   NA 
+##  8  1961 mlo                 2854.
+##  9  1961 kum                   NA 
+## 10  1961 chr                   NA</code></pre>
 
 </div>
             </section>
