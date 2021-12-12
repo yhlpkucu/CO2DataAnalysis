@@ -1,1 +1,10 @@
 # Results
+
+```{r}
+ggplot(data = yearly_co2_tidy, aes(x = Yr, y = CO2_concentration, color = station))+
+  geom_line() +
+  ggtitle("Yearly CO2 concentrations") +
+  labs(x = "year", y = "CO2 concentration")
+```
+
+From this graph, we can conclude that there are increasingly amount of C02 concentrations for all the stations on the whole year by year over time. Sometimes we can observe a striking valley, such as in 2001 and 2020 for Christmas Island Station, which may be caused by missing data.

@@ -38,7 +38,7 @@ nzd_mn <- select(nzd, Yr, Mn, CO2..ppm.)
 nzd_mn <- rename(nzd_mn, nzd = CO2..ppm.)
 ```
 
-Next we join all the stations by year and month columns, and we have formed the new dataset “monthly_flask_co2” so far.
+Next we do an outer join by year and month columns for all the stations, and we have formed the new dataset “monthly_flask_co2” so far.
 
 ```{r}
 monthly_co2 <- merge(alt_mn,mlo_mn,by=c("Yr","Mn"),all=TRUE)
@@ -48,4 +48,20 @@ monthly_co2 <- merge(monthly_co2,sam_mn,by=c("Yr","Mn"),all=TRUE)
 monthly_co2 <- merge(monthly_co2,ker_mn,by=c("Yr","Mn"),all=TRUE)
 monthly_co2 <- merge(monthly_co2,nzd_mn,by=c("Yr","Mn"),all=TRUE)
 monthly_co2[1:10,]
+```
+
+In addition, we want to get the yearly CO2 concentrations for all the stations. So we aggregate station columns and get the sum by each year. We also tidy the data, and we finally get our transformed data.
+
+```{r}
+alt_yr <- aggregate(cbind(alt,mlo,kum,chr,sam,ker,nzd)~Yr,monthly_co2,sum)
+yearly_co2 <- merge(alt_yr,mlo_yr,all=TRUE)
+yearly_co2 <- merge(yearly_co2,kum_yr,all=TRUE)
+yearly_co2 <- merge(yearly_co2,chr_yr,all=TRUE)
+yearly_co2 <- merge(yearly_co2,sam_yr,all=TRUE)
+yearly_co2 <- merge(yearly_co2,ker_yr,all=TRUE)
+yearly_co2 <- merge(yearly_co2,nzd_yr,all=TRUE)
+yearly_co2_tidy <- yearly_co2 %>%
+  pivot_longer(cols = !Yr, names_to = "station", 
+               values_to = "CO2_concentration")
+yearly_co2_tidy[1:10,]
 ```
