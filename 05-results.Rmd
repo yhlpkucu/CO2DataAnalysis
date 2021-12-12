@@ -2,6 +2,7 @@
 
 ```{r}
 library(ggplot2)
+yearly_co2_tidy = read.csv("./data/yearly_co2_tidy.csv")
 ggplot(data = yearly_co2_tidy, aes(x = Yr, y = CO2_concentration, color = station))+
   geom_line() +
   ggtitle("Yearly CO2 concentrations") +
