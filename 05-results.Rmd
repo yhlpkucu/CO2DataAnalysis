@@ -3,10 +3,27 @@
 ```{r}
 library(ggplot2)
 yearly_co2_tidy = read.csv("./data/yearly_co2_tidy.csv")
-ggplot(data = yearly_co2_tidy, aes(x = Yr, y = CO2_concentration, color = station))+
+ggplot(data = yearly_co2_tidy, aes(x = Yr, y = CO2_concentration, color = station)) +
   geom_line() +
-  ggtitle("Yearly CO2 concentrations") +
-  labs(x = "year", y = "CO2 concentration")
+  ggtitle("CO2 concentrations from 1960 to 2020") +
+  labs(x = "year", y = "CO2 concentration") + 
+  theme_grey(16)
 ```
 
 From this graph, we can conclude that there are increasingly amount of C02 concentrations for all the stations on the whole year by year over time. Sometimes we can observe a striking valley, such as in 2001 and 2020 for Christmas Island Station, which may be caused by missing data.
+
+```{r}
+library(tidyverse)
+monthly_co2 = read.csv("./data/monthly_flask_co2.csv")
+monthly_co2_tidy <- monthly_co2 %>%
+  pivot_longer(cols = -c(Yr,Mn), names_to = "station", 
+               values_to = "CO2_concentration")
+ggplot(monthly_co2_tidy, aes(x=fct_reorder(station,CO2_concentration,na.rm=TRUE), y=CO2_concentration)) +
+  geom_boxplot() +
+  coord_flip() +
+  ggtitle("Monthly CO2 concentrations for each station") +
+  labs(x = "station", y = "monthly CO2 concentration") + 
+  theme_grey(16)
+```
+
+From this graph, we can conclude that the median monthly CO2 concentration values are similar accross all the stations except for the Alert Station. The Alert Station has a median of more than 400, while the median of others are approximately between 350 and 375. That's because the Alert Station started to record data only from 2011, so it has a small range. The highest monthly CO2 concentration also comes form the Alert Station, which is almost 425. Besides the Alert Station, Cape Kumukahi Station and American Samoa Station have higher monthly CO2 concentration than Kermadec Island Station than the other three stations. The data for Mauna Loa Observatory is the most sparse because it is the earliest station to record data, and that's why its median is the lowest. There are no outliers.
