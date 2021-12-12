@@ -51,7 +51,19 @@ monthly_co2 <- merge(monthly_co2,nzd_mn,by=c("Yr","Mn"),all=TRUE)
 monthly_co2[613:622,]
 ```
 
-In addition, we want to get the yearly CO2 concentrations for all the stations. So we aggregate station columns and get the sum by each year. After we tidy the data, we finally get our transformed data.
+Since one of our goals is to study the impact of COVID-19 on CO2 concentrations, we need to filter the date during COVID-19, which is from March 2020 to now. Here is our data "covid_co2".
+
+```{r}
+covid_co2 <- filter(monthly_co2, (Yr == 2020 & Mn >= 3) | Yr == 2021)
+covid_co2_tidy <- covid_co2 %>%
+  pivot_longer(cols = -c(Yr,Mn), names_to = "station", 
+               values_to = "CO2_concentration")
+covid_co2_tidy[1:10,]
+write.csv(covid_co2_tidy,"./data/covid_co2_tidy.csv")
+```
+
+
+In addition, we want to get the yearly CO2 concentrations for all the stations. So we aggregate station columns and get the sum by each year. After we tidy the data, we finally get our transformed data “yearly_co2”.
 
 ```{r}
 library(tidyr)

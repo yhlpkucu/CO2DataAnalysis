@@ -164,7 +164,21 @@
 ## 620 2011  8    NaN 390.20 388.18 391.02 390.10    NaN    NaN
 ## 621 2011  9 381.93 388.59 387.16 390.83    NaN    NaN 389.45
 ## 622 2011 10 388.07 389.26 389.98 390.46 390.37    NaN 387.99</code></pre>
-<p>In addition, we want to get the yearly CO2 concentrations for all the stations. So we aggregate station columns and get the sum by each year. After we tidy the data, we finally get our transformed data.</p>
+<p>Since one of our goals is to study the impact of COVID-19 on CO2 concentrations, we need to filter the date during COVID-19, which is from March 2020 to now. Here is our data “covid_co2”.</p>
+<pre><code>## # A tibble: 10 × 4
+##       Yr    Mn station CO2_concentration
+##    &lt;int&gt; &lt;int&gt; &lt;chr&gt;               &lt;dbl&gt;
+##  1  2020     3 alt                  419.
+##  2  2020     3 mlo                  414.
+##  3  2020     3 kum                  416.
+##  4  2020     3 chr                  NaN 
+##  5  2020     3 sam                  412.
+##  6  2020     3 ker                  409 
+##  7  2020     3 nzd                  408.
+##  8  2020     4 alt                  420.
+##  9  2020     4 mlo                  416.
+## 10  2020     4 kum                  417.</code></pre>
+<p>In addition, we want to get the yearly CO2 concentrations for all the stations. So we aggregate station columns and get the sum by each year. After we tidy the data, we finally get our transformed data “yearly_co2”.</p>
 <pre><code>## # A tibble: 10 × 3
 ##       Yr station CO2_concentration
 ##    &lt;int&gt; &lt;chr&gt;               &lt;dbl&gt;
