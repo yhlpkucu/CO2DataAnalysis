@@ -1,2 +1,29 @@
 # Data sources
 
+The data sources of this project are from [*Scipps CO2 Program](https://scrippsco2.ucsd.edu)
+
+## Monthly average CO2 concentrations
+
+**Dataset : monthly_flask_co2___.csv**
+
+Atmospheric CO2 Data collected from active sampling station
+
+```{r, echo=FALSE, results='asis'}
+library(tidyverse)
+names <- read_csv("./data/station_names.csv")
+knitr::kable(names, caption = "Sampling stations", row.names = F,font_size = 10)
+```
+
+**Issues with this dataset: **
+
+All stations are located in the pacific area along having similar longitude.
+
+
+## Seawater Carbon Data
+
+**Dataset : BATS.csv BERM.csv HAWI.csv**
+
+```{r, echo=FALSE, results='asis'}
+seawater_bats <- read_csv("./data/station_names.csv")
+knitr::kable(seawater_bats, caption = "Seawater Carbon Data in Bermuda Atlantic Time-series Station", row.names = F, font_size = 10)
+```
