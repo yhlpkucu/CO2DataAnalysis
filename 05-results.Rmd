@@ -12,13 +12,8 @@ ggplot(data = na.omit(yearly_co2_tidy), aes(x = Yr, y = CO2_concentration, color
   labs(x = "year", y = "CO2 concentration") + 
   theme_grey(16)
 ```
-```{r}
 
-```
-
-
-From this graph, we can conclude that there are increasingly amount of C02 concentrations for all the stations on the whole year by year over time. And this trend is consistent for all sampling stations.
-
+The CO2 concentration in this graph is the average CO2 concentration of all the months of the whole year. From this graph, we can conclude that on the whole there are increasingly amount of C02 concentrations for all the stations year by year over time. And this trend is consistent for all sampling stations.
 
 ## Factors affecting the CO2 changes
 
@@ -38,7 +33,7 @@ ggplot(monthly_co2_tidy, aes(x=fct_reorder(station,CO2_concentration,na.rm=TRUE)
   theme_grey(16)
 ```
 
-From this graph, we can conclude that the median monthly CO2 concentration values are similar accross all the stations except for the Alert Station. The Alert Station has a median of more than 400, while the median of others are approximately between 350 and 375. That's because the Alert Station started to record data only from 2011, so it has a small range. The highest monthly CO2 concentration also comes form the Alert Station, which is almost 425. Besides the Alert Station, Cape Kumukahi Station and American Samoa Station have higher monthly CO2 concentration than Kermadec Island Station than the other three stations. The data for Mauna Loa Observatory is the most sparse because it is the earliest station to record data, and that's why its median is the lowest. There are no outliers.
+The monthly CO2 concentration in this graph is basically the CO2 concentration of all the months. From this graph, we can conclude that the median monthly CO2 concentration values are similar accross all the stations except for the Alert Station. The Alert Station has a median of more than 400, while the median of others are approximately between 350 and 375. That's because the Alert Station started to record data only from 2011, so it has a small range. The highest monthly CO2 concentration also comes form the Alert Station, which is almost 425. Besides the Alert Station, Cape Kumukahi Station and American Samoa Station have higher monthly CO2 concentration than Kermadec Island Station than the other three stations. The data for Mauna Loa Observatory is the most sparse because it is the earliest station to record data, and that's why its median is the lowest. There are no outliers.
 
 ### Time: different months
 ```{r}
@@ -53,10 +48,12 @@ monthly_co2_tidy %>% filter(Yr > 2000) %>%
   ggplot(aes(n, reorder(Mn, n))) +
   geom_point() +
   ggtitle("Monthly CO2 concentration") + 
-  xlab('co2 concentration') +
-  ylab('Month') 
+  xlab('CO2 concentration') +
+  ylab('Month') + 
+  theme_grey(16)
 ```
-We use two stations data from 2001 to 2020 to generate this graph. We can inspect that the CO2 concentration in each month shows great differences. In the summer, the CO2 concentration gets to a high level, while it is relatively low in spring and autumn. Regardless of year, March is the month where CO2 concentraion reach a exact low level contrasted to other months. We can conclude that there are some factors related to time causing such situation. Primarily, temprature and human activities are all vital influece factor.
+
+We use two stations both in the northern hemisphere from 2001 to 2020 to generate this graph. The CO2 concentration in this graph is the sum of the CO2 concentration of these two stations for each month. We can inspect that the CO2 concentration in each month shows great differences. In the summer, the CO2 concentration gets to a high level, while it is relatively low in spring and autumn. Regardless of year, March is the month where CO2 concentraion reach a exact low level contrasted to other months. We can conclude that there are some factors related to time causing such situation. Primarily, temperature and human activities are all vital influencing factor.
 
 ### Sea water features
 
@@ -67,8 +64,12 @@ sw_berm <- read_csv("./data/BERM.csv")
 sw_bats <- read_csv("./data/BATS.csv")
 sw_hawi <- read_csv("./data/HAWI.csv")
 sw_total <- rbind(sw_berm, sw_bats, sw_hawi)
-ggplot(sw_total, aes(x=DIC,y=Salinity)) + ggtitle("Salinity v.s DIC in BERM") + facet_wrap(~Station) +
-  geom_hex(bins=30) + scale_fill_gradient(low = "lightblue", high = "blue")
+ggplot(sw_total, aes(x=DIC,y=Salinity)) + 
+  ggtitle("Salinity v.s DIC in BERM") + 
+  facet_wrap(~Station) +
+  geom_hex(bins=30) + 
+  scale_fill_gradient(low = "lightblue", high = "blue") + 
+  theme_grey(16)
 ```
 
 From the above graphs, we can see that there is somehow some relation between Salinity and carbon in sea water. Sea water with higher salinity tend to have larger amount of dissolved inorganic carbon (DIC). This is a potential factor to the CO2 concentration differences.
