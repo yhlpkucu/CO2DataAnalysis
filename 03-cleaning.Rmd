@@ -3,6 +3,10 @@
 First, let's take a look at our raw data. Take alt as an example, it contains 10 columns. Columns 1-4 provide different formats of dates, so we keep only the year and month columns. Columns 5-10 are monthly CO2 concentrations in different versions that have been adjusted. We only use column 5 in this project because it is the most standard. 
 
 ```{r}
+library(tidyverse)
+library(data.table)
+library(tidyr)
+library(dplyr)
 alt = read.csv("./data/monthly_flask_co2_alt.csv")
 alt[13:22,]
 ```
@@ -10,33 +14,32 @@ alt[13:22,]
 So we select year, month, and CO2 ppm columns and rename the last column to the station name because we have C02 concentration data for different stations and we need to separate them. This is what the dataset looks like after our selection.
 
 ```{r}
-library(dplyr)
-alt_mn <- select(alt, Yr, Mn, CO2..ppm.)
-alt_mn <- rename(alt_mn, alt = CO2..ppm.)
+alt_mn <- select(alt, Yr, Mn, CO2.filled..ppm.)
+alt_mn <- rename(alt_mn, alt = CO2.filled..ppm.)
 alt_mn[13:22,]
 ```
 
 Then we do the same thing for all the stations of different locations.
 
 ```{r}
-mlo = read.csv("./data/monthly_flask_co2_mlo.csv")
-mlo_mn <- select(mlo, Yr, Mn, CO2..ppm.)
-mlo_mn <- rename(mlo_mn, mlo = CO2..ppm.)
-kum = read.csv("./data/monthly_flask_co2_kum.csv")
-kum_mn <- select(kum, Yr, Mn, CO2..ppm.)
-kum_mn <- rename(kum_mn, kum = CO2..ppm.)
-chr = read.csv("./data/monthly_flask_co2_chr.csv")
-chr_mn <- select(chr, Yr, Mn, CO2..ppm.)
-chr_mn <- rename(chr_mn, chr = CO2..ppm.)
-sam = read.csv("./data/monthly_flask_co2_sam.csv")
-sam_mn <- select(sam, Yr, Mn, CO2..ppm.)
-sam_mn <- rename(sam_mn, sam = CO2..ppm.)
-ker = read.csv("./data/monthly_flask_co2_ker.csv")
-ker_mn <- select(ker, Yr, Mn, CO2..ppm.)
-ker_mn <- rename(ker_mn, ker = CO2..ppm.)
-nzd = read.csv("./data/monthly_flask_co2_nzd.csv")
-nzd_mn <- select(nzd, Yr, Mn, CO2..ppm.)
-nzd_mn <- rename(nzd_mn, nzd = CO2..ppm.)
+mlo <- read.csv("./data/monthly_flask_co2_mlo.csv")
+mlo_mn <- select(mlo, Yr, Mn, CO2.filled..ppm.)
+mlo_mn <- rename(mlo_mn, mlo = CO2.filled..ppm.)
+kum <- read.csv("./data/monthly_flask_co2_kum.csv")
+kum_mn <- select(kum, Yr, Mn, CO2.filled..ppm.)
+kum_mn <- rename(kum_mn, kum = CO2.filled..ppm.)
+chr <- read.csv("./data/monthly_flask_co2_chr.csv")
+chr_mn <- select(chr, Yr, Mn, CO2.filled..ppm.)
+chr_mn <- rename(chr_mn, chr = CO2.filled..ppm.)
+sam <- read.csv("./data/monthly_flask_co2_sam.csv")
+sam_mn <- select(sam, Yr, Mn, CO2.filled..ppm.)
+sam_mn <- rename(sam_mn, sam = CO2.filled..ppm.)
+ker <- read.csv("./data/monthly_flask_co2_ker.csv")
+ker_mn <- select(ker, Yr, Mn, CO2.filled..ppm.)
+ker_mn <- rename(ker_mn, ker = CO2.filled..ppm.)
+nzd <- read.csv("./data/monthly_flask_co2_nzd.csv")
+nzd_mn <- select(nzd, Yr, Mn, CO2.filled..ppm.)
+nzd_mn <- rename(nzd_mn, nzd = CO2.filled..ppm.)
 ```
 
 Next we do an outer join by year and month columns for all the stations, and we have formed the new dataset “monthly_flask_co2” so far.
@@ -79,7 +82,6 @@ covid_co2_tidy[1:10,]
 In addition, we want to get the yearly CO2 concentrations for all the stations. So we aggregate station columns and get the average of all the months. Here is our data “yearly_co2”.
 
 ```{r}
-library(tidyr)
 alt_yr <- aggregate(alt~Yr,monthly_co2,mean)
 mlo_yr <- aggregate(mlo~Yr,monthly_co2,mean)
 kum_yr <- aggregate(kum~Yr,monthly_co2,mean)
@@ -100,27 +102,27 @@ yearly_co2_tidy[365:374,]
 #write.csv(yearly_co2_tidy,"./data/yearly_co2_tidy.csv")
 ```
 
-Besides the yearly CO2 concentrations, we also want to get the ratio of CO2 concentrations this year to last year for all the stations. Here is our data “yearly_co2_ratio”.
+Besides the yearly CO2 concentrations, we also want to get the ratio of CO2 concentrations for each month of this year to last year for all the stations. Here is our data “monthly_co2_ratio”.
 
 ```{r}
-yearly_co2$ratio_alt <- yearly_co2$alt / shift(yearly_co2$alt)
-yearly_co2$ratio_mlo <- yearly_co2$mlo / shift(yearly_co2$mlo)
-yearly_co2$ratio_kum <- yearly_co2$kum / shift(yearly_co2$kum)
-yearly_co2$ratio_chr <- yearly_co2$chr / shift(yearly_co2$chr)
-yearly_co2$ratio_sam <- yearly_co2$sam / shift(yearly_co2$sam)
-yearly_co2$ratio_ker <- yearly_co2$ker / shift(yearly_co2$ker)
-yearly_co2$ratio_nzd <- yearly_co2$nzd / shift(yearly_co2$nzd)
-yearly_co2_ratio <- yearly_co2[,c(1,9:15)]
-yearly_co2_ratio <- rename(yearly_co2_ratio, alt = ratio_alt)
-yearly_co2_ratio <- rename(yearly_co2_ratio, mlo = ratio_mlo)
-yearly_co2_ratio <- rename(yearly_co2_ratio, kum = ratio_kum)
-yearly_co2_ratio <- rename(yearly_co2_ratio, chr = ratio_chr)
-yearly_co2_ratio <- rename(yearly_co2_ratio, sam = ratio_sam)
-yearly_co2_ratio <- rename(yearly_co2_ratio, ker = ratio_ker)
-yearly_co2_ratio <- rename(yearly_co2_ratio, nzd = ratio_nzd)
-yearly_co2_ratio_tidy <- yearly_co2_ratio %>%
-  pivot_longer(cols = -Yr, names_to = "station", 
-               values_to = "CO2_concentration_ratio")
-yearly_co2_ratio_tidy[365:374,]
-#write.csv(yearly_co2_ratio_tidy,"./data/yearly_co2_ratio.csv")
+monthly_co2_interval <- monthly_co2 %>% filter(Yr %in% c(2011:2013, 2018:2021))
+ratio_l <- c("ratio_alt", "ratio_mlo", "ratio_kum", "ratio_chr", "ratio_sam", "ratio_ker", "ratio_nzd")
+station_l <- colnames(monthly_co2_interval)[3:9]
+for (i in 0:length(station_l)) {
+  newcol <- ratio_l[i]
+  cur_station <- station_l[i]
+  monthly_co2_interval[newcol] <- monthly_co2_interval[cur_station] / shift(monthly_co2_interval[cur_station])
+}
+
+monthly_co2_interval <- filter(monthly_co2_interval, Yr %in% c(2012,2013, 2018:2021))
+monthly_co2_interval$date <- paste(monthly_co2_interval$Yr, monthly_co2_interval$Mn, sep="-")
+
+co2_ratio <- monthly_co2_interval[, c(17, 10:16)]
+
+co2_ratio <- co2_ratio %>% 
+  pivot_longer(cols = -date, names_to = "station", values_to = "CO2_concentration_ratio")
+co2_ratio
+#write.csv(co2_ratio,"./data/monthly_co2_ratio.csv")
 ```
+
+Now, we have finished our data set cleaning part and we will perform our further analysis based on this transformed data set.
