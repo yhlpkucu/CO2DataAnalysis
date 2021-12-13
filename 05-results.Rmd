@@ -3,10 +3,7 @@
 ## CO2 changes by time
 
 ```{r}
-#install.packages("plotly")
 library(ggplot2)
-library(plotly)
-library(gridExtra)
 
 yearly_co2_tidy = read.csv("./data/yearly_co2_tidy.csv")
 ggplot(data = na.omit(yearly_co2_tidy), aes(x = Yr, y = CO2_concentration, color = station)) +
@@ -16,6 +13,7 @@ ggplot(data = na.omit(yearly_co2_tidy), aes(x = Yr, y = CO2_concentration, color
   theme_grey(16)
 ```
 ```{r}
+
 ```
 
 
@@ -50,14 +48,9 @@ The sea water is continuously changing as well. In the data, one feature of sea 
 sw_berm <- read_csv("./data/BERM.csv")
 sw_bats <- read_csv("./data/BATS.csv")
 sw_hawi <- read_csv("./data/HAWI.csv")
-ggplot(sw_berm, aes(x=DIC,y=Salinity)) + ggtitle("Salinity v.s DIC in BERM") + 
-  geom_hex(bins=20, color = "white") + scale_fill_gradient(low = "lightblue", high = "blue")
-
-ggplot(sw_bats, aes(x=DIC,y=Salinity)) + ggtitle("Salinity v.s DIC in BATS") + 
-  geom_hex(bins=20, color = "white") + scale_fill_gradient(low = "lightblue", high = "blue")
-
-ggplot(sw_hawi, aes(x=DIC,y=Salinity)) + ggtitle("Salinity v.s DIC in HAWI") + 
-  geom_hex(bins=20, color = "white") + scale_fill_gradient(low = "lightblue", high = "blue")
+sw_total <- rbind(sw_berm, sw_bats, sw_hawi)
+ggplot(sw_total, aes(x=DIC,y=Salinity)) + ggtitle("Salinity v.s DIC in BERM") + facet_wrap(~Station) +
+  geom_hex(bins=30) + scale_fill_gradient(low = "lightblue", high = "blue")
 ```
 
 From the above graphs, we can see that there is somehow some relation between Salinity and carbon in sea water. Sea water with higher salinity tend to have larger amount of dissolved inorganic carbon (DIC). This is a potential factor to the CO2 concentration differences.
@@ -65,7 +58,12 @@ From the above graphs, we can see that there is somehow some relation between Sa
 ## CO2 changes during Covid-19 pandemic
 
 ```{r}
-
+df_covid <- na.omit(yearly_co2_tidy)[260:285,]
+ggplot(data = df_covid, aes(x = Yr, y = CO2_concentration, color = station)) +
+  geom_line() +
+  annotate("rect", xmin = 2020.2, xmax = 2021, alpha = .2, ymin = 402, ymax = 422) +
+  labs(x = "year", y = "CO2 concentration") + 
+  theme_grey(16)
 ```
 
-
+The shaded area is the time period during the Covid-19 pandemic. We select the time interval starting from 2020 March to present. And we want to focus on this interval to see if the pandemic affects the CO2 emission.

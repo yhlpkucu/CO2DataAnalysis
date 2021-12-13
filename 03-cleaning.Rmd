@@ -59,7 +59,7 @@ covid_co2_tidy <- covid_co2 %>%
   pivot_longer(cols = -c(Yr,Mn), names_to = "station", 
                values_to = "CO2_concentration")
 covid_co2_tidy[1:10,]
-write.csv(covid_co2_tidy,"./data/covid_co2_tidy.csv")
+#write.csv(covid_co2_tidy,"./data/covid_co2_tidy.csv")
 ```
 
 
