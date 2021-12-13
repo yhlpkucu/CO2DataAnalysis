@@ -74,8 +74,9 @@
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
 <li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a><ul>
-<li class="chapter" data-level="2.1" data-path="data-sources.html"><a href="data-sources.html#monthly-average-co2-concentrations"><i class="fa fa-check"></i><b>2.1</b> Monthly average CO2 concentrations</a></li>
-<li class="chapter" data-level="2.2" data-path="data-sources.html"><a href="data-sources.html#seawater-carbon-data"><i class="fa fa-check"></i><b>2.2</b> Seawater Carbon Data</a></li>
+<li class="chapter" data-level="2.1" data-path="data-sources.html"><a href="data-sources.html#sampling-stations"><i class="fa fa-check"></i><b>2.1</b> Sampling stations</a></li>
+<li class="chapter" data-level="2.2" data-path="data-sources.html"><a href="data-sources.html#co2-concentrations-categories"><i class="fa fa-check"></i><b>2.2</b> CO2 concentrations categories</a></li>
+<li class="chapter" data-level="2.3" data-path="data-sources.html"><a href="data-sources.html#seawater-carbon-data"><i class="fa fa-check"></i><b>2.3</b> Seawater Carbon Data</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a></li>
 <li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a></li>
@@ -108,10 +109,9 @@
 <div id="data-sources" class="section level1">
 <h1><span class="header-section-number">Chapter 2</span> Data sources</h1>
 <p>The data sources of this project are from <a href="https://scrippsco2.ucsd.edu"><em>Scipps CO2 Program</em></a></p>
-<div id="monthly-average-co2-concentrations" class="section level2">
-<h2><span class="header-section-number">2.1</span> Monthly average CO2 concentrations</h2>
-<p>**Dataset : monthly_flask_co2___.csv**</p>
-<p>Atmospheric CO2 Data collected from active sampling station</p>
+<div id="sampling-stations" class="section level2">
+<h2><span class="header-section-number">2.1</span> Sampling stations</h2>
+<p>Atmospheric CO2 Data collected from active sampling station. Below is the information for each sampling station. We will be using the <em>Station Code</em> column representing each station throughout the project. And the location information is used for analysis in Chapter 5.</p>
 <table>
 <caption><span id="tab:unnamed-chunk-3">Table 2.1: </span>Sampling stations</caption>
 <thead>
@@ -216,111 +216,102 @@
 </tbody>
 </table>
 <p><strong>Issues with this dataset: </strong></p>
-<p>All stations are located in the pacific area along having similar longitude.</p>
+<p>All stations are located in the pacific area along having similar longitude. Lack of information from other continents and longtitudes.</p>
 </div>
-<div id="seawater-carbon-data" class="section level2">
-<h2><span class="header-section-number">2.2</span> Seawater Carbon Data</h2>
-<p><strong>Dataset : BATS.csv BERM.csv HAWI.csv</strong></p>
+<div id="co2-concentrations-categories" class="section level2">
+<h2><span class="header-section-number">2.2</span> CO2 concentrations categories</h2>
+<p><strong>Dataset : monthly_flask_co2_(station code).csv</strong></p>
+<p>The data include all the CO2 concentration collected from Flask CO2 provided by Scripps CO2 Program.</p>
 <table>
-<caption><span id="tab:unnamed-chunk-4">Table 2.2: </span>Seawater Carbon Data in Bermuda Atlantic Time-series Station</caption>
+<caption><span id="tab:unnamed-chunk-4">Table 2.2: </span>Major columns used</caption>
+<colgroup>
+<col width="24%" />
+<col width="75%" />
+</colgroup>
 <thead>
 <tr class="header">
-<th align="left">Station Name</th>
-<th align="left">Station Code</th>
-<th align="left">Latitude</th>
-<th align="left">Longitude</th>
-<th align="right">Elevation (m)</th>
-<th align="left">Dates</th>
+<th align="left">Column Name</th>
+<th align="left">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">Alert, NWT, Canada</td>
-<td align="left">ALT</td>
-<td align="left">82.3 °N</td>
-<td align="left">62.3 °W</td>
-<td align="right">210</td>
-<td align="left">1985 - present</td>
+<td align="left">Yr</td>
+<td align="left">year</td>
 </tr>
 <tr class="even">
-<td align="left">Point Barrow, Alaska</td>
-<td align="left">PTB</td>
-<td align="left">71.3 °N</td>
-<td align="left">156.6 °W</td>
-<td align="right">11</td>
-<td align="left">1961 - present</td>
+<td align="left">Mn</td>
+<td align="left">month</td>
 </tr>
 <tr class="odd">
-<td align="left">La Jolla Pier, California</td>
-<td align="left">LJO</td>
-<td align="left">32.9 °N</td>
-<td align="left">117.3 °W</td>
-<td align="right">10</td>
-<td align="left">1957 - present</td>
+<td align="left">CO2 [ppm]</td>
+<td align="left">standard monthly CO2 concentrations in micro-mol CO2 per mole (ppm)</td>
 </tr>
 <tr class="even">
-<td align="left">Mauna Loa Observatory, Hawaii</td>
-<td align="left">MLO</td>
-<td align="left">19.5 °N</td>
-<td align="left">155.6 °W</td>
-<td align="right">3397</td>
-<td align="left">1958 - present</td>
+<td align="left">seasonally adjusted [ppm]</td>
+<td align="left">CO2 concentrations after seasonal cycle removed (ppm)</td>
 </tr>
 <tr class="odd">
-<td align="left">Cape Kumukahi, Hawaii</td>
-<td align="left">KUM</td>
-<td align="left">19.5 °N</td>
-<td align="left">154.8 °W</td>
-<td align="right">3</td>
-<td align="left">1979 - present</td>
+<td align="left">fit [ppm]</td>
+<td align="left">smoothed version of the data (ppm)</td>
 </tr>
 <tr class="even">
-<td align="left">Fanning Island</td>
-<td align="left">FAN</td>
-<td align="left">3.9 °N</td>
-<td align="left">159.4 °W</td>
-<td align="right">3</td>
-<td align="left">1977 - present</td>
+<td align="left">seasonally adjusted fit [ppm]</td>
+<td align="left">smoothed version of the data after seasonal cycle removed (ppm)</td>
 </tr>
 <tr class="odd">
-<td align="left">Christmas Island</td>
-<td align="left">CHR</td>
-<td align="left">2.0 °N</td>
-<td align="left">157.3 °W</td>
-<td align="right">2</td>
-<td align="left">1974 - present</td>
+<td align="left">CO2 filled [ppm]</td>
+<td align="left">missing values in standard CO2 column filled with smoothed version</td>
 </tr>
 <tr class="even">
-<td align="left">American Samoa</td>
-<td align="left">SAM</td>
-<td align="left">14.2 °S</td>
-<td align="left">170.6 °W</td>
-<td align="right">30</td>
-<td align="left">1981 - present</td>
+<td align="left">seasonally adjusted filled [ppm]</td>
+<td align="left">missing values in seasonal adjusted standard CO2 column filled with seasonal adjusted smoothed version</td>
 </tr>
+</tbody>
+</table>
+<p><strong>Issues with this dataset: </strong></p>
+<p>The starting time of the collection for different stations are different. Some stations start in early 1960s, while other stations have large number of missing values from 1960s through 1980s. This may create inconsistency if we generate analysis on the whole time period.</p>
+</div>
+<div id="seawater-carbon-data" class="section level2">
+<h2><span class="header-section-number">2.3</span> Seawater Carbon Data</h2>
+<p><strong>Dataset : BATS.csv BERM.csv HAWI.csv</strong></p>
+<p>We will be using the following columns to analyze the Seawater Carbon Data. The data is collected from surface sea water provided by Scripps CO2 Program.</p>
+<table>
+<caption><span id="tab:unnamed-chunk-5">Table 2.3: </span>Major columns used</caption>
+<thead>
+<tr class="header">
+<th align="left">Colnames</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
 <tr class="odd">
-<td align="left">Kermadec Island</td>
-<td align="left">KER</td>
-<td align="left">29.2 °S</td>
-<td align="left">177.9 °W</td>
-<td align="right">2</td>
-<td align="left">1982 -present</td>
+<td align="left">Station</td>
+<td align="left">station code</td>
 </tr>
 <tr class="even">
-<td align="left">Baring Head, New Zealand</td>
-<td align="left">NZD</td>
-<td align="left">41.4 °S</td>
-<td align="left">174.9 °E</td>
-<td align="right">85</td>
-<td align="left">1977 - present</td>
+<td align="left">Sample</td>
+<td align="left">sample collection date</td>
 </tr>
 <tr class="odd">
-<td align="left">South Pole</td>
-<td align="left">SPO</td>
-<td align="left">90.0 °S</td>
-<td align="left">NA</td>
-<td align="right">2810</td>
-<td align="left">1957 - present</td>
+<td align="left">Depth</td>
+<td align="left">depth of where the sample is collected</td>
+</tr>
+<tr class="even">
+<td align="left">Salinity</td>
+<td align="left">salinity of the sample</td>
+</tr>
+<tr class="odd">
+<td align="left">Temp</td>
+<td align="left">temperature</td>
+</tr>
+<tr class="even">
+<td align="left">DIC</td>
+<td align="left">dissolved inorganic carbon</td>
+</tr>
+<tr class="odd">
+<td align="left">d13C-DIC</td>
+<td align="left">the reduced isotope ratio 13C/12C of DIC</td>
 </tr>
 </tbody>
 </table>

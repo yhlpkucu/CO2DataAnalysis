@@ -1,0 +1,9 @@
+﻿Column Name,Description
+Yr,year
+Mn,month
+CO2 [ppm],standard monthly CO2 concentrations in micro-mol CO2 per mole (ppm)
+seasonally adjusted [ppm],CO2 concentrations after seasonal cycle removed (ppm)
+fit [ppm],smoothed version of the data (ppm)
+seasonally adjusted fit [ppm],smoothed version of the data after seasonal cycle removed (ppm)
+CO2 filled [ppm],missing values in standard CO2 column filled with smoothed version
+seasonally adjusted filled [ppm],missing values in seasonal adjusted standard CO2 column filled with seasonal adjusted smoothed version

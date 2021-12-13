@@ -1,0 +1,8 @@
+﻿Colnames,Description
+Station,station code 
+Sample,sample collection date
+Depth,depth of where the sample is collected
+Salinity,salinity of the sample
+Temp,temperature
+DIC,dissolved inorganic carbon
+d13C-DIC,the reduced isotope ratio 13C/12C of DIC

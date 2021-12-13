@@ -1,8 +1,10 @@
 tab:unnamed-chunk-3
 tab:unnamed-chunk-4
+tab:unnamed-chunk-5
 introduction
 data-sources
-monthly-average-co2-concentrations
+sampling-stations
+co2-concentrations-categories
 seawater-carbon-data
 data-transformation
 missing-values
