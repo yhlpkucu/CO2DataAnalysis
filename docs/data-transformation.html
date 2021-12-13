@@ -33,6 +33,7 @@
   
 <link rel="prev" href="data-sources.html"/>
 <link rel="next" href="missing-values.html"/>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -73,18 +74,22 @@
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
-<li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a><ul>
+<li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a>
+<ul>
 <li class="chapter" data-level="2.1" data-path="data-sources.html"><a href="data-sources.html#sampling-stations"><i class="fa fa-check"></i><b>2.1</b> Sampling stations</a></li>
 <li class="chapter" data-level="2.2" data-path="data-sources.html"><a href="data-sources.html#co2-concentrations-categories"><i class="fa fa-check"></i><b>2.2</b> CO2 concentrations categories</a></li>
 <li class="chapter" data-level="2.3" data-path="data-sources.html"><a href="data-sources.html#seawater-carbon-data"><i class="fa fa-check"></i><b>2.3</b> Seawater Carbon Data</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a></li>
 <li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a></li>
-<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a><ul>
+<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a>
+<ul>
 <li class="chapter" data-level="5.1" data-path="results.html"><a href="results.html#co2-changes-by-time"><i class="fa fa-check"></i><b>5.1</b> CO2 changes by time</a></li>
-<li class="chapter" data-level="5.2" data-path="results.html"><a href="results.html#factors-affecting-the-co2-changes"><i class="fa fa-check"></i><b>5.2</b> Factors affecting the CO2 changes</a><ul>
+<li class="chapter" data-level="5.2" data-path="results.html"><a href="results.html#factors-affecting-the-co2-changes"><i class="fa fa-check"></i><b>5.2</b> Factors affecting the CO2 changes</a>
+<ul>
 <li class="chapter" data-level="5.2.1" data-path="results.html"><a href="results.html#locations-different-sampling-stations"><i class="fa fa-check"></i><b>5.2.1</b> locations: different sampling stations</a></li>
-<li class="chapter" data-level="5.2.2" data-path="results.html"><a href="results.html#sea-water-features"><i class="fa fa-check"></i><b>5.2.2</b> Sea water features</a></li>
+<li class="chapter" data-level="5.2.2" data-path="results.html"><a href="results.html#time-different-months"><i class="fa fa-check"></i><b>5.2.2</b> Time: different months</a></li>
+<li class="chapter" data-level="5.2.3" data-path="results.html"><a href="results.html#sea-water-features"><i class="fa fa-check"></i><b>5.2.3</b> Sea water features</a></li>
 </ul></li>
 <li class="chapter" data-level="5.3" data-path="results.html"><a href="results.html#co2-changes-during-covid-19-pandemic"><i class="fa fa-check"></i><b>5.3</b> CO2 changes during Covid-19 pandemic</a></li>
 </ul></li>
@@ -109,31 +114,20 @@
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="data-transformation" class="section level1">
+<div id="data-transformation" class="section level1" number="3">
 <h1><span class="header-section-number">Chapter 3</span> Data transformation</h1>
 <p>First, let’s take a look at our raw data. Take alt as an example, it contains 10 columns. Columns 1-4 provide different formats of dates, so we keep only the year and month columns. Columns 5-10 are monthly CO2 concentrations in different versions that have been adjusted. We only use column 5 in this project because it is the most standard.</p>
-<pre><code>##      Yr Mn Date.Excel     Date CO2..ppm. seasonally..adjusted fit..ppm.
-## 13 2012  1      40923 2012.041    399.10               394.87    398.02
-## 14 2012  2      40954 2012.126    398.83               393.60    399.20
-## 15 2012  3      40983 2012.205    399.40               393.67    399.85
-## 16 2012  4      41014 2012.290    400.07               394.39    400.00
-## 17 2012  5      41044 2012.372    400.42               394.75    400.17
-## 18 2012  6      41075 2012.456    397.28               394.51    397.47
-## 19 2012  7      41105 2012.538    389.59               394.40    390.11
-## 20 2012  8      41136 2012.623    382.70               393.96    383.90
-## 21 2012  9      41167 2012.708    386.00               396.33    385.08
-## 22 2012 10      41197 2012.790    390.42               395.60    390.49
-##    seasonally.adjusted.fit..ppm. CO2.filled..ppm.
-## 13                        393.79           399.10
-## 14                        393.97           398.83
-## 15                        394.13           399.40
-## 16                        394.31           400.07
-## 17                        394.50           400.42
-## 18                        394.71           397.28
-## 19                        394.92           389.59
-## 20                        395.16           382.70
-## 21                        395.41           386.00
-## 22                        395.67           390.42
+<pre><code>##      Yr Mn Date.Excel     Date CO2..ppm. seasonally..adjusted fit..ppm. seasonally.adjusted.fit..ppm. CO2.filled..ppm.
+## 13 2012  1      40923 2012.041    399.10               394.87    398.02                        393.79           399.10
+## 14 2012  2      40954 2012.126    398.83               393.60    399.20                        393.97           398.83
+## 15 2012  3      40983 2012.205    399.40               393.67    399.85                        394.13           399.40
+## 16 2012  4      41014 2012.290    400.07               394.39    400.00                        394.31           400.07
+## 17 2012  5      41044 2012.372    400.42               394.75    400.17                        394.50           400.42
+## 18 2012  6      41075 2012.456    397.28               394.51    397.47                        394.71           397.28
+## 19 2012  7      41105 2012.538    389.59               394.40    390.11                        394.92           389.59
+## 20 2012  8      41136 2012.623    382.70               393.96    383.90                        395.16           382.70
+## 21 2012  9      41167 2012.708    386.00               396.33    385.08                        395.41           386.00
+## 22 2012 10      41197 2012.790    390.42               395.60    390.49                        395.67           390.42
 ##    seasonally.adjusted.filled..ppm.
 ## 13                           394.87
 ## 14                           393.60
@@ -184,7 +178,7 @@
 ##  8  2012 Feb   alt                  399. southern  
 ##  9  2012 Feb   mlo                  393. southern  
 ## 10  2012 Feb   kum                  395. southern  
-## # … with 100 more rows</code></pre>
+## # ... with 100 more rows</code></pre>
 <p>Since one of our goals is to study the impact of COVID-19 on CO2 concentrations, we need to filter the date during COVID-19, which is from March 2020 to now. Here is our data “covid_co2”.</p>
 <pre><code>## # A tibble: 10 x 4
 ##       Yr    Mn station CO2_concentration

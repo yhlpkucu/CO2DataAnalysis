@@ -33,6 +33,7 @@
   
 <link rel="prev" href="missing-values.html"/>
 <link rel="next" href="interactive-component.html"/>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -73,18 +74,22 @@
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
-<li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a><ul>
+<li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a>
+<ul>
 <li class="chapter" data-level="2.1" data-path="data-sources.html"><a href="data-sources.html#sampling-stations"><i class="fa fa-check"></i><b>2.1</b> Sampling stations</a></li>
 <li class="chapter" data-level="2.2" data-path="data-sources.html"><a href="data-sources.html#co2-concentrations-categories"><i class="fa fa-check"></i><b>2.2</b> CO2 concentrations categories</a></li>
 <li class="chapter" data-level="2.3" data-path="data-sources.html"><a href="data-sources.html#seawater-carbon-data"><i class="fa fa-check"></i><b>2.3</b> Seawater Carbon Data</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a></li>
 <li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a></li>
-<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a><ul>
+<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a>
+<ul>
 <li class="chapter" data-level="5.1" data-path="results.html"><a href="results.html#co2-changes-by-time"><i class="fa fa-check"></i><b>5.1</b> CO2 changes by time</a></li>
-<li class="chapter" data-level="5.2" data-path="results.html"><a href="results.html#factors-affecting-the-co2-changes"><i class="fa fa-check"></i><b>5.2</b> Factors affecting the CO2 changes</a><ul>
+<li class="chapter" data-level="5.2" data-path="results.html"><a href="results.html#factors-affecting-the-co2-changes"><i class="fa fa-check"></i><b>5.2</b> Factors affecting the CO2 changes</a>
+<ul>
 <li class="chapter" data-level="5.2.1" data-path="results.html"><a href="results.html#locations-different-sampling-stations"><i class="fa fa-check"></i><b>5.2.1</b> locations: different sampling stations</a></li>
-<li class="chapter" data-level="5.2.2" data-path="results.html"><a href="results.html#sea-water-features"><i class="fa fa-check"></i><b>5.2.2</b> Sea water features</a></li>
+<li class="chapter" data-level="5.2.2" data-path="results.html"><a href="results.html#time-different-months"><i class="fa fa-check"></i><b>5.2.2</b> Time: different months</a></li>
+<li class="chapter" data-level="5.2.3" data-path="results.html"><a href="results.html#sea-water-features"><i class="fa fa-check"></i><b>5.2.3</b> Sea water features</a></li>
 </ul></li>
 <li class="chapter" data-level="5.3" data-path="results.html"><a href="results.html#co2-changes-during-covid-19-pandemic"><i class="fa fa-check"></i><b>5.3</b> CO2 changes during Covid-19 pandemic</a></li>
 </ul></li>
@@ -109,30 +114,35 @@
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="results" class="section level1">
+<div id="results" class="section level1" number="5">
 <h1><span class="header-section-number">Chapter 5</span> Results</h1>
-<div id="co2-changes-by-time" class="section level2">
+<div id="co2-changes-by-time" class="section level2" number="5.1">
 <h2><span class="header-section-number">5.1</span> CO2 changes by time</h2>
 <p><img src="finalproj_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
 <p>From this graph, we can conclude that there are increasingly amount of C02 concentrations for all the stations on the whole year by year over time. And this trend is consistent for all sampling stations.</p>
 </div>
-<div id="factors-affecting-the-co2-changes" class="section level2">
+<div id="factors-affecting-the-co2-changes" class="section level2" number="5.2">
 <h2><span class="header-section-number">5.2</span> Factors affecting the CO2 changes</h2>
-<div id="locations-different-sampling-stations" class="section level3">
+<div id="locations-different-sampling-stations" class="section level3" number="5.2.1">
 <h3><span class="header-section-number">5.2.1</span> locations: different sampling stations</h3>
 <p><img src="finalproj_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
 <p>From this graph, we can conclude that the median monthly CO2 concentration values are similar accross all the stations except for the Alert Station. The Alert Station has a median of more than 400, while the median of others are approximately between 350 and 375. That’s because the Alert Station started to record data only from 2011, so it has a small range. The highest monthly CO2 concentration also comes form the Alert Station, which is almost 425. Besides the Alert Station, Cape Kumukahi Station and American Samoa Station have higher monthly CO2 concentration than Kermadec Island Station than the other three stations. The data for Mauna Loa Observatory is the most sparse because it is the earliest station to record data, and that’s why its median is the lowest. There are no outliers.</p>
 </div>
-<div id="sea-water-features" class="section level3">
-<h3><span class="header-section-number">5.2.2</span> Sea water features</h3>
+<div id="time-different-months" class="section level3" number="5.2.2">
+<h3><span class="header-section-number">5.2.2</span> Time: different months</h3>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-23-1.png" width="672" />
+We use two stations data from 2001 to 2020 to generate this graph. We can inspect that the CO2 concentration in each month shows great differences. In the summer, the CO2 concentration gets to a high level, while it is relatively low in spring and autumn. Regardless of year, March is the month where CO2 concentraion reach a exact low level contrasted to other months. We can conclude that there are some factors related to time causing such situation. Primarily, temprature and human activities are all vital influece factor.</p>
+</div>
+<div id="sea-water-features" class="section level3" number="5.2.3">
+<h3><span class="header-section-number">5.2.3</span> Sea water features</h3>
 <p>The sea water is continuously changing as well. In the data, one feature of sea water is the salinity.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
 <p>From the above graphs, we can see that there is somehow some relation between Salinity and carbon in sea water. Sea water with higher salinity tend to have larger amount of dissolved inorganic carbon (DIC). This is a potential factor to the CO2 concentration differences.</p>
 </div>
 </div>
-<div id="co2-changes-during-covid-19-pandemic" class="section level2">
+<div id="co2-changes-during-covid-19-pandemic" class="section level2" number="5.3">
 <h2><span class="header-section-number">5.3</span> CO2 changes during Covid-19 pandemic</h2>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
 <p>The shaded area is the time period during the Covid-19 pandemic. We select the time interval starting from 2020 March to present. And we want to focus on this interval to see if the pandemic affects the CO2 emission.</p>
 
 </div>
