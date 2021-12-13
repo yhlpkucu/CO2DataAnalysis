@@ -49,7 +49,7 @@ monthly_co2 <- merge(monthly_co2,sam_mn,by=c("Yr","Mn"),all=TRUE)
 monthly_co2 <- merge(monthly_co2,ker_mn,by=c("Yr","Mn"),all=TRUE)
 monthly_co2 <- merge(monthly_co2,nzd_mn,by=c("Yr","Mn"),all=TRUE)
 monthly_co2[625:634,]
-#write.csv(monthly_co2,"./data/monthly_co2")
+#write.csv(monthly_co2,"./data/monthly_flask_co2.csv")
 ```
 
 Since we don't have categorical variables in our data, we want to add two categorical variables. Firstly, we change the numerical value of months to categories, such as January and February. Secondly, we separate our stations into two categories, in the northern hemisphere and in the southern hemisphere. Here is our data "monthly_co2_c".
@@ -60,8 +60,8 @@ monthly_co2_c$Mn <- month.abb[monthly_co2$Mn]
 monthly_co2_c_tidy <- monthly_co2_c %>%
   pivot_longer(cols = -c(Yr,Mn), names_to = "station", 
                values_to = "CO2_concentration")
-monthly_co2_c_tidy$hemisphere <- ifelse(monthly_co2_c_tidy$station %in% c('ALT','MLO','KUM','CHR'), 'northern', 'southern')
-monthly_co2_c_tidy[4369:4478,]
+monthly_co2_c_tidy$hemisphere <- ifelse(monthly_co2_c_tidy$station %in% c('alt','mlo','kum','chr'), 'northern', 'southern')
+monthly_co2_c_tidy[4369:4378,]
 #write.csv(monthly_co2_c_tidy,"./data/monthly_co2_c_tidy.csv")
 ```
 
@@ -76,7 +76,7 @@ covid_co2_tidy[1:10,]
 #write.csv(covid_co2_tidy,"./data/covid_co2_tidy.csv")
 ```
 
-In addition, we want to get the yearly CO2 concentrations for all the stations. So we aggregate station columns and get the average of all the months. After we tidy the data, we finally get our transformed data “yearly_co2”.
+In addition, we want to get the yearly CO2 concentrations for all the stations. So we aggregate station columns and get the average of all the months. Here is our data “yearly_co2”.
 
 ```{r}
 library(tidyr)
@@ -98,4 +98,29 @@ yearly_co2_tidy <- yearly_co2 %>%
                values_to = "CO2_concentration")
 yearly_co2_tidy[365:374,]
 #write.csv(yearly_co2_tidy,"./data/yearly_co2_tidy.csv")
+```
+
+Besides the yearly CO2 concentrations, we also want to get the ratio of CO2 concentrations this year to last year for all the stations. Here is our data “yearly_co2_ratio”.
+
+```{r}
+yearly_co2$ratio_alt <- yearly_co2$alt / shift(yearly_co2$alt)
+yearly_co2$ratio_mlo <- yearly_co2$mlo / shift(yearly_co2$mlo)
+yearly_co2$ratio_kum <- yearly_co2$kum / shift(yearly_co2$kum)
+yearly_co2$ratio_chr <- yearly_co2$chr / shift(yearly_co2$chr)
+yearly_co2$ratio_sam <- yearly_co2$sam / shift(yearly_co2$sam)
+yearly_co2$ratio_ker <- yearly_co2$ker / shift(yearly_co2$ker)
+yearly_co2$ratio_nzd <- yearly_co2$nzd / shift(yearly_co2$nzd)
+yearly_co2_ratio <- yearly_co2[,c(1,9:15)]
+yearly_co2_ratio <- rename(yearly_co2_ratio, alt = ratio_alt)
+yearly_co2_ratio <- rename(yearly_co2_ratio, mlo = ratio_mlo)
+yearly_co2_ratio <- rename(yearly_co2_ratio, kum = ratio_kum)
+yearly_co2_ratio <- rename(yearly_co2_ratio, chr = ratio_chr)
+yearly_co2_ratio <- rename(yearly_co2_ratio, sam = ratio_sam)
+yearly_co2_ratio <- rename(yearly_co2_ratio, ker = ratio_ker)
+yearly_co2_ratio <- rename(yearly_co2_ratio, nzd = ratio_nzd)
+yearly_co2_ratio_tidy <- yearly_co2_ratio %>%
+  pivot_longer(cols = -Yr, names_to = "station", 
+               values_to = "CO2_concentration_ratio")
+yearly_co2_ratio_tidy[365:374,]
+#write.csv(yearly_co2_ratio_tidy,"./data/yearly_co2_ratio.csv")
 ```
