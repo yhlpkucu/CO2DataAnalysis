@@ -33,7 +33,6 @@
   
 <link rel="prev" href="data-sources.html"/>
 <link rel="next" href="missing-values.html"/>
-<script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -74,14 +73,17 @@
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
-<li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a>
-<ul>
+<li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a><ul>
 <li class="chapter" data-level="2.1" data-path="data-sources.html"><a href="data-sources.html#monthly-average-co2-concentrations"><i class="fa fa-check"></i><b>2.1</b> Monthly average CO2 concentrations</a></li>
 <li class="chapter" data-level="2.2" data-path="data-sources.html"><a href="data-sources.html#seawater-carbon-data"><i class="fa fa-check"></i><b>2.2</b> Seawater Carbon Data</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a></li>
 <li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a></li>
-<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a></li>
+<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a><ul>
+<li class="chapter" data-level="5.1" data-path="results.html"><a href="results.html#co2-concentration-changes-by-time"><i class="fa fa-check"></i><b>5.1</b> CO2 concentration changes by time</a></li>
+<li class="chapter" data-level="5.2" data-path="results.html"><a href="results.html#co2-concentration-among-different-stations"><i class="fa fa-check"></i><b>5.2</b> CO2 concentration among different stations</a></li>
+<li class="chapter" data-level="5.3" data-path="results.html"><a href="results.html#co2-concentration-during-covid-19-pandemic"><i class="fa fa-check"></i><b>5.3</b> CO2 concentration during Covid-19 pandemic</a></li>
+</ul></li>
 <li class="chapter" data-level="6" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>6</b> Interactive component</a></li>
 <li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
 <li class="divider"></li>
@@ -103,7 +105,7 @@
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="data-transformation" class="section level1" number="3">
+<div id="data-transformation" class="section level1">
 <h1><span class="header-section-number">Chapter 3</span> Data transformation</h1>
 <p>First, let’s take a look at our raw data. Take alt as an example, it contains 10 columns. Columns 1-4 provide different formats of dates, so we keep only the year and month columns. Columns 5-10 are monthly CO2 concentrations in different versions that have been adjusted. We only use column 5 in this project because it is the most standard.</p>
 <pre><code>##      Yr Mn Date.Excel     Date CO2..ppm. seasonally..adjusted fit..ppm.
@@ -165,7 +167,7 @@
 ## 621 2011  9 381.93 388.59 387.16 390.83    NaN    NaN 389.45
 ## 622 2011 10 388.07 389.26 389.98 390.46 390.37    NaN 387.99</code></pre>
 <p>Since one of our goals is to study the impact of COVID-19 on CO2 concentrations, we need to filter the date during COVID-19, which is from March 2020 to now. Here is our data “covid_co2”.</p>
-<pre><code>## # A tibble: 10 × 4
+<pre><code>## # A tibble: 10 x 4
 ##       Yr    Mn station CO2_concentration
 ##    &lt;int&gt; &lt;int&gt; &lt;chr&gt;               &lt;dbl&gt;
 ##  1  2020     3 alt                  419.
@@ -179,7 +181,7 @@
 ##  9  2020     4 mlo                  416.
 ## 10  2020     4 kum                  417.</code></pre>
 <p>In addition, we want to get the yearly CO2 concentrations for all the stations. So we aggregate station columns and get the sum by each year. After we tidy the data, we finally get our transformed data “yearly_co2”.</p>
-<pre><code>## # A tibble: 10 × 3
+<pre><code>## # A tibble: 10 x 3
 ##       Yr station CO2_concentration
 ##    &lt;int&gt; &lt;chr&gt;               &lt;dbl&gt;
 ##  1  2010 alt                   NA 

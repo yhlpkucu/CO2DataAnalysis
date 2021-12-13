@@ -1,6 +1,6 @@
 # Data sources
 
-The data sources of this project are from [*Scipps CO2 Program](https://scrippsco2.ucsd.edu)
+The data sources of this project are from [*Scipps CO2 Program*](https://scrippsco2.ucsd.edu)
 
 ## Monthly average CO2 concentrations
 
