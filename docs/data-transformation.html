@@ -113,63 +113,78 @@
 <h1><span class="header-section-number">Chapter 3</span> Data transformation</h1>
 <p>First, let’s take a look at our raw data. Take alt as an example, it contains 10 columns. Columns 1-4 provide different formats of dates, so we keep only the year and month columns. Columns 5-10 are monthly CO2 concentrations in different versions that have been adjusted. We only use column 5 in this project because it is the most standard.</p>
 <pre><code>##      Yr Mn Date.Excel     Date CO2..ppm. seasonally..adjusted fit..ppm.
-## 1  2011  1      40558 2011.041       NaN                  NaN    395.66
-## 2  2011  2      40589 2011.126       NaN                  NaN    396.87
-## 3  2011  3      40617 2011.203       NaN                  NaN    397.54
-## 4  2011  4      40648 2011.288       NaN                  NaN    397.70
-## 5  2011  5      40678 2011.370       NaN                  NaN    397.90
-## 6  2011  6      40709 2011.455       NaN                  NaN    395.29
-## 7  2011  7      40739 2011.537       NaN                  NaN    387.95
-## 8  2011  8      40770 2011.622       NaN                  NaN    381.62
-## 9  2011  9      40801 2011.707    381.93               392.29    382.68
-## 10 2011 10      40831 2011.789    388.07               393.28    388.02
+## 13 2012  1      40923 2012.041    399.10               394.87    398.02
+## 14 2012  2      40954 2012.126    398.83               393.60    399.20
+## 15 2012  3      40983 2012.205    399.40               393.67    399.85
+## 16 2012  4      41014 2012.290    400.07               394.39    400.00
+## 17 2012  5      41044 2012.372    400.42               394.75    400.17
+## 18 2012  6      41075 2012.456    397.28               394.51    397.47
+## 19 2012  7      41105 2012.538    389.59               394.40    390.11
+## 20 2012  8      41136 2012.623    382.70               393.96    383.90
+## 21 2012  9      41167 2012.708    386.00               396.33    385.08
+## 22 2012 10      41197 2012.790    390.42               395.60    390.49
 ##    seasonally.adjusted.fit..ppm. CO2.filled..ppm.
-## 1                         391.44           395.66
-## 2                         391.64           396.87
-## 3                         391.82           397.54
-## 4                         392.03           397.70
-## 5                         392.23           397.90
-## 6                         392.43           395.29
-## 7                         392.63           387.95
-## 8                         392.83           381.62
-## 9                         393.04           381.93
-## 10                        393.23           388.07
+## 13                        393.79           399.10
+## 14                        393.97           398.83
+## 15                        394.13           399.40
+## 16                        394.31           400.07
+## 17                        394.50           400.42
+## 18                        394.71           397.28
+## 19                        394.92           389.59
+## 20                        395.16           382.70
+## 21                        395.41           386.00
+## 22                        395.67           390.42
 ##    seasonally.adjusted.filled..ppm.
-## 1                            391.44
-## 2                            391.64
-## 3                            391.82
-## 4                            392.03
-## 5                            392.23
-## 6                            392.43
-## 7                            392.63
-## 8                            392.83
-## 9                            392.29
-## 10                           393.28</code></pre>
+## 13                           394.87
+## 14                           393.60
+## 15                           393.67
+## 16                           394.39
+## 17                           394.75
+## 18                           394.51
+## 19                           394.40
+## 20                           393.96
+## 21                           396.33
+## 22                           395.60</code></pre>
 <p>So we select year, month, and CO2 ppm columns and rename the last column to the station name because we have C02 concentration data for different stations and we need to separate them. This is what the dataset looks like after our selection.</p>
 <pre><code>##      Yr Mn    alt
-## 1  2011  1    NaN
-## 2  2011  2    NaN
-## 3  2011  3    NaN
-## 4  2011  4    NaN
-## 5  2011  5    NaN
-## 6  2011  6    NaN
-## 7  2011  7    NaN
-## 8  2011  8    NaN
-## 9  2011  9 381.93
-## 10 2011 10 388.07</code></pre>
+## 13 2012  1 399.10
+## 14 2012  2 398.83
+## 15 2012  3 399.40
+## 16 2012  4 400.07
+## 17 2012  5 400.42
+## 18 2012  6 397.28
+## 19 2012  7 389.59
+## 20 2012  8 382.70
+## 21 2012  9 386.00
+## 22 2012 10 390.42</code></pre>
 <p>Then we do the same thing for all the stations of different locations.</p>
 <p>Next we do an outer join by year and month columns for all the stations, and we have formed the new dataset “monthly_flask_co2” so far.</p>
 <pre><code>##       Yr Mn    alt    mlo    kum    chr    sam    ker    nzd
-## 613 2011  1    NaN 391.74 392.80 390.28 389.66 389.63 387.13
-## 614 2011  2    NaN 391.69 393.71 391.43 389.02    NaN    NaN
-## 615 2011  3    NaN 392.22 394.02 390.79 389.36    NaN 386.41
-## 616 2011  4    NaN 393.74 396.27 391.87 388.13 387.95 388.58
-## 617 2011  5    NaN 394.75 395.67 391.68 389.56    NaN    NaN
-## 618 2011  6    NaN 393.54 394.41    NaN 389.00    NaN    NaN
-## 619 2011  7    NaN 392.59 390.82 392.10 389.20 390.00 388.36
-## 620 2011  8    NaN 390.20 388.18 391.02 390.10    NaN    NaN
-## 621 2011  9 381.93 388.59 387.16 390.83    NaN    NaN 389.45
-## 622 2011 10 388.07 389.26 389.98 390.46 390.37    NaN 387.99</code></pre>
+## 625 2012  1 399.10 393.19 393.72    NaN 391.60    NaN 388.43
+## 626 2012  2 398.83 393.47 395.39 393.53 392.08    NaN 388.10
+## 627 2012  3 399.40 394.42 397.81 394.19 391.98 390.66 388.50
+## 628 2012  4 400.07 396.48 397.72 393.61 391.66    NaN 388.50
+## 629 2012  5 400.42 397.17 398.15 393.20 391.51    NaN 389.30
+## 630 2012  6 397.28 396.11 396.28 393.73 391.66    NaN 390.57
+## 631 2012  7 389.59 394.38 392.81    NaN 390.74 390.36    NaN
+## 632 2012  8 382.70 392.02 392.54 392.78 392.07    NaN 390.81
+## 633 2012  9 386.00 391.16 390.40    NaN 391.83 390.93 391.55
+## 634 2012 10 390.42 391.08 391.67 394.65 392.17 391.69    NaN</code></pre>
+<p>Since we don’t have categorical variables in our data, we want to add two categorical variables. Firstly, we change the numerical value of months to categories, such as January and February. Secondly, we separate our stations into two categories, in the northern hemisphere and in the southern hemisphere. Here is our data “monthly_co2_c”.</p>
+<pre><code>## # A tibble: 110 x 5
+##       Yr Mn    station CO2_concentration hemisphere
+##    &lt;int&gt; &lt;chr&gt; &lt;chr&gt;               &lt;dbl&gt; &lt;chr&gt;     
+##  1  2012 Jan   alt                  399. southern  
+##  2  2012 Jan   mlo                  393. southern  
+##  3  2012 Jan   kum                  394. southern  
+##  4  2012 Jan   chr                  NaN  southern  
+##  5  2012 Jan   sam                  392. southern  
+##  6  2012 Jan   ker                  NaN  southern  
+##  7  2012 Jan   nzd                  388. southern  
+##  8  2012 Feb   alt                  399. southern  
+##  9  2012 Feb   mlo                  393. southern  
+## 10  2012 Feb   kum                  395. southern  
+## # … with 100 more rows</code></pre>
 <p>Since one of our goals is to study the impact of COVID-19 on CO2 concentrations, we need to filter the date during COVID-19, which is from March 2020 to now. Here is our data “covid_co2”.</p>
 <pre><code>## # A tibble: 10 x 4
 ##       Yr    Mn station CO2_concentration
@@ -184,20 +199,20 @@
 ##  8  2020     4 alt                  420.
 ##  9  2020     4 mlo                  416.
 ## 10  2020     4 kum                  417.</code></pre>
-<p>In addition, we want to get the yearly CO2 concentrations for all the stations. So we aggregate station columns and get the sum by each year. After we tidy the data, we finally get our transformed data “yearly_co2”.</p>
+<p>In addition, we want to get the yearly CO2 concentrations for all the stations. So we aggregate station columns and get the average of all the months. After we tidy the data, we finally get our transformed data “yearly_co2”.</p>
 <pre><code>## # A tibble: 10 x 3
 ##       Yr station CO2_concentration
 ##    &lt;int&gt; &lt;chr&gt;               &lt;dbl&gt;
-##  1  2010 alt                   NA 
-##  2  2010 mlo                  390.
-##  3  2010 kum                  390.
-##  4  2010 chr                  389.
-##  5  2010 sam                  388.
-##  6  2010 ker                  387.
-##  7  2010 nzd                  386.
-##  8  2011 alt                  390.
-##  9  2011 mlo                  392.
-## 10  2011 kum                  392.</code></pre>
+##  1  2012 alt                  395.
+##  2  2012 mlo                  394.
+##  3  2012 kum                  395.
+##  4  2012 chr                  394.
+##  5  2012 sam                  392.
+##  6  2012 ker                  391.
+##  7  2012 nzd                  390.
+##  8  2013 alt                  397.
+##  9  2013 mlo                  397.
+## 10  2013 kum                  397.</code></pre>
 
 </div>
             </section>
