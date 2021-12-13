@@ -4,7 +4,7 @@ First, let's take a look at our raw data. Take alt as an example, it contains 10
 
 ```{r}
 alt = read.csv("./data/monthly_flask_co2_alt.csv")
-alt[1:10,]
+alt[13:22,]
 ```
 
 So we select year, month, and CO2 ppm columns and rename the last column to the station name because we have C02 concentration data for different stations and we need to separate them. This is what the dataset looks like after our selection.
@@ -13,7 +13,7 @@ So we select year, month, and CO2 ppm columns and rename the last column to the 
 library(dplyr)
 alt_mn <- select(alt, Yr, Mn, CO2..ppm.)
 alt_mn <- rename(alt_mn, alt = CO2..ppm.)
-alt_mn[1:10,]
+alt_mn[13:22,]
 ```
 
 Then we do the same thing for all the stations of different locations.
@@ -48,7 +48,21 @@ monthly_co2 <- merge(monthly_co2,chr_mn,by=c("Yr","Mn"),all=TRUE)
 monthly_co2 <- merge(monthly_co2,sam_mn,by=c("Yr","Mn"),all=TRUE)
 monthly_co2 <- merge(monthly_co2,ker_mn,by=c("Yr","Mn"),all=TRUE)
 monthly_co2 <- merge(monthly_co2,nzd_mn,by=c("Yr","Mn"),all=TRUE)
-monthly_co2[613:622,]
+monthly_co2[625:634,]
+#write.csv(monthly_co2,"./data/monthly_co2")
+```
+
+Since we don't have categorical variables in our data, we want to add two categorical variables. Firstly, we change the numerical value of months to categories, such as January and February. Secondly, we separate our stations into two categories, in the northern hemisphere and in the southern hemisphere. Here is our data "monthly_co2_c".
+
+```{r}
+monthly_co2_c <- monthly_co2
+monthly_co2_c$Mn <- month.abb[monthly_co2$Mn]
+monthly_co2_c_tidy <- monthly_co2_c %>%
+  pivot_longer(cols = -c(Yr,Mn), names_to = "station", 
+               values_to = "CO2_concentration")
+monthly_co2_c_tidy$hemisphere <- ifelse(monthly_co2_c_tidy$station %in% c('ALT','MLO','KUM','CHR'), 'northern', 'southern')
+monthly_co2_c_tidy[4369:4478,]
+#write.csv(monthly_co2_c_tidy,"./data/monthly_co2_c_tidy.csv")
 ```
 
 Since one of our goals is to study the impact of COVID-19 on CO2 concentrations, we need to filter the date during COVID-19, which is from March 2020 to now. Here is our data "covid_co2".
@@ -62,8 +76,7 @@ covid_co2_tidy[1:10,]
 #write.csv(covid_co2_tidy,"./data/covid_co2_tidy.csv")
 ```
 
-
-In addition, we want to get the yearly CO2 concentrations for all the stations. So we aggregate station columns and get the sum by each year. After we tidy the data, we finally get our transformed data “yearly_co2”.
+In addition, we want to get the yearly CO2 concentrations for all the stations. So we aggregate station columns and get the average of all the months. After we tidy the data, we finally get our transformed data “yearly_co2”.
 
 ```{r}
 library(tidyr)
@@ -83,6 +96,6 @@ yearly_co2 <- merge(yearly_co2,nzd_yr,all=TRUE)
 yearly_co2_tidy <- yearly_co2 %>%
   pivot_longer(cols = !Yr, names_to = "station", 
                values_to = "CO2_concentration")
-yearly_co2_tidy[351:360,]
+yearly_co2_tidy[365:374,]
 #write.csv(yearly_co2_tidy,"./data/yearly_co2_tidy.csv")
 ```
