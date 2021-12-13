@@ -67,13 +67,13 @@ In addition, we want to get the yearly CO2 concentrations for all the stations. 
 
 ```{r}
 library(tidyr)
-alt_yr <- aggregate(alt~Yr,monthly_co2,sum)
-mlo_yr <- aggregate(mlo~Yr,monthly_co2,sum)
-kum_yr <- aggregate(kum~Yr,monthly_co2,sum)
-chr_yr <- aggregate(chr~Yr,monthly_co2,sum)
-sam_yr <- aggregate(sam~Yr,monthly_co2,sum)
-ker_yr <- aggregate(ker~Yr,monthly_co2,sum)
-nzd_yr <- aggregate(nzd~Yr,monthly_co2,sum)
+alt_yr <- aggregate(alt~Yr,monthly_co2,mean)
+mlo_yr <- aggregate(mlo~Yr,monthly_co2,mean)
+kum_yr <- aggregate(kum~Yr,monthly_co2,mean)
+chr_yr <- aggregate(chr~Yr,monthly_co2,mean)
+sam_yr <- aggregate(sam~Yr,monthly_co2,mean)
+ker_yr <- aggregate(ker~Yr,monthly_co2,mean)
+nzd_yr <- aggregate(nzd~Yr,monthly_co2,mean)
 yearly_co2 <- merge(alt_yr,mlo_yr,all=TRUE)
 yearly_co2 <- merge(yearly_co2,kum_yr,all=TRUE)
 yearly_co2 <- merge(yearly_co2,chr_yr,all=TRUE)
@@ -84,4 +84,5 @@ yearly_co2_tidy <- yearly_co2 %>%
   pivot_longer(cols = !Yr, names_to = "station", 
                values_to = "CO2_concentration")
 yearly_co2_tidy[351:360,]
+#write.csv(yearly_co2_tidy,"./data/yearly_co2_tidy.csv")
 ```

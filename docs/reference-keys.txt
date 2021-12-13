@@ -9,8 +9,10 @@ seawater-carbon-data
 data-transformation
 missing-values
 results
-co2-concentration-changes-by-time
-co2-concentration-among-different-stations
-co2-concentration-during-covid-19-pandemic
+co2-changes-by-time
+factors-affecting-the-co2-changes
+locations-different-sampling-stations
+sea-water-features
+co2-changes-during-covid-19-pandemic
 interactive-component
 conclusion
