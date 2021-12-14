@@ -8,7 +8,7 @@
 library(ggplot2)
 library(tidyverse)
 library(gridExtra)
-library(ggpubr)
+library(data.table)
 yearly_co2_tidy <- read.csv("./data/yearly_co2_tidy.csv")
 ggplot(data = na.omit(yearly_co2_tidy), aes(x = Yr, y = CO2_concentration, color = station)) +
   geom_line() +
@@ -114,7 +114,7 @@ g2 <- ggplot(monthly_co2_h_s, aes(x=fct_inorder(date), y=CO2_concentration, grou
 jan <- subset(monthly_co2_h_s, endsWith(monthly_co2_h_s$date, "-1"))
 g2 <- g2 + geom_point(data=jan,aes(x=fct_inorder(date), y=CO2_concentration), color="blue")
 grid.arrange(g1,g2,
-             top = text_grob("CO2 concentration in different hemispheres"))
+             top = "CO2 concentration in different hemispheres")
 ```
 
 We select the year 2011 to 2019 as an example for both graphs. So the monthly CO2 concentration in this graph is basically the CO2 concentration of all the months from 2011 to 2019. We find that the northern hemisphere and the southern hemisphere have different trends for the monthly CO2 concentration. In the northern hemisphere, the red point represents the CO2 concentration for May, which is the peak of each year. Meanwhile, in the southern hemisphere, the blue point represents the CO2 concentration for January, which is almost the peak for most years. Due to different geographical locations, seasons and weather may differ, which results in different CO2 concentrations.
@@ -177,7 +177,7 @@ g2 <- ggplot(covid_data_yr2, aes(x = CO2_concentration_ratio, fill = covid)) +
   ggtitle("2018-2019 v.s. 2020-2021")
 
 grid.arrange(g1, g2, nrow=1,
-             bottom = text_grob("monthly CO2 increment ratio"))
+             bottom = "monthly CO2 increment ratio")
 ```
 
 From the above graphs, it seems like the ranges of CO2 concentration increment ratio each month for covid and non-covid time periods are both between 0.98 and 1.02, and they are both bell shaped. Besides, we can see the differences between the blue and lightblue columns that the count of the increment ratio during covid pandemic is slightly smaller than that in normal time periods. But the differences are subtle as the x-scale we have is all spreading between small units 0.98 to 1.02, so we can say that during the past one and a half year, the increment of CO2 concentration was not largely affected by Covid-19. The trends are approximately the same. We can roughly infer that the Covid-19 pandemic does not have an significant impact on CO2 concentration.
