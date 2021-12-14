@@ -2,10 +2,14 @@
 
 ## CO2 changes by time
 
+### General trend
+
 ```{r}
 library(ggplot2)
-
-yearly_co2_tidy = read.csv("./data/yearly_co2_tidy.csv")
+library(tidyverse)
+library(gridExtra)
+library(ggpubr)
+yearly_co2_tidy <- read.csv("./data/yearly_co2_tidy.csv")
 ggplot(data = na.omit(yearly_co2_tidy), aes(x = Yr, y = CO2_concentration, color = station)) +
   geom_line() +
   ggtitle("CO2 concentrations from 1960 to 2021") +
@@ -15,14 +19,52 @@ ggplot(data = na.omit(yearly_co2_tidy), aes(x = Yr, y = CO2_concentration, color
 
 The CO2 concentration in this graph is the average CO2 concentration of all the months of the whole year. From this graph, we can conclude that on the whole there are increasingly amount of C02 concentrations for all the stations year by year over time. And this trend is consistent for all sampling stations.
 
-## Factors affecting the CO2 changes
-
-### locations: different sampling stations
+### Adjusted data
 
 ```{r}
-library(tidyverse)
+dt_adjusted <- read.csv("./data/monthly_in_situ_co2_mlo.csv")
+dt_adjusted$date <- paste(dt_adjusted$Yr, dt_adjusted$Mn, sep="-")
+dt_adjusted <- dt_adjusted %>% filter(Yr > 2016) %>% filter(Yr < 2020) %>% select(date, CO2.filled, seasonally.adjusted.filled) 
+dt_adjusted <- pivot_longer(data = dt_adjusted, cols = !date, names_to = "method", values_to = "CO2.filled")
+
+ggplot(data=dt_adjusted, aes(x=fct_inorder(date), y=CO2.filled, color=method)) +
+  geom_point() + 
+  xlab("Date") +
+  ggtitle("CO2 data using different methods") +
+  theme(axis.text.x = element_text(angle = 50, hjust=1))
+```
+
+We select the year 2017 to 2019 as an example. The original data has two columns: "CO2.filled..ppm" and "seasonally.adjusted.filled..ppm" representing the original CO2 concentration collected and the CO2 concentration after removing the quasi-regular seasonal cycle adjusted, respectively. As shown in the red points, we can see that there is a clear pattern of the CO2 concentration following the pattern of months (seasons). However, in the blue points, we can see that the trend is consistent, and there is no such pattern for points to drift up and down, which is appropriate since the adjusted method is to remove the seasonal cycle. Therefore though these two columns all indicate the CO2 concentration information, they might have different results using different methods.
+
+## Factors affecting the CO2 changes
+
+### Time: months
+```{r}
+monthly_co2_c_tidy = read.csv("./data/monthly_co2_c_tidy.csv")
+monthly_co2_c_tidy %>% filter(Yr > 2000) %>% 
+  filter(Yr < 2021) %>% 
+  filter(station %in% c('mlo', 'kum')) %>% 
+  na.omit() %>% 
+  group_by(Mn) %>% 
+  mutate(n = mean(CO2_concentration)) %>% 
+  ungroup() %>% 
+  select(Mn, n) %>% 
+  unique() %>% 
+  ggplot(aes(n, reorder(Mn, n))) +
+  geom_point() +
+  ggtitle("CO2 concentration for each month") + 
+  xlab('CO2 concentration') + 
+  ylab('Month') + 
+  theme_grey(16)
+```
+
+We use stations Mauna Loa Observatory and Cape Kumukahi Station, which are both in the northern hemisphere, from 2001 to 2020 to generate this graph. The CO2 concentration in this graph is the sum of the CO2 concentration of these two stations for each month. We can inspect that the CO2 concentration in each month shows great differences. In summer, the CO2 concentration gets to a high level, while it is relatively low in spring and autumn. Regardless of year, March is the month where CO2 concentraion reach a exact low level contrasted to other months. We can conclude that there are some factors related to time causing such situation. Primarily, temperature and human activities are all vital influencing factor.
+
+### Location: sampling stations
+
+```{r}
 monthly_co2 <- read.csv("./data/monthly_flask_co2.csv")
-monthly_co2_tidy <- monthly_co2 %>%
+monthly_co2_tidy <- monthly_co2 %>% select(-X) %>%
   pivot_longer(cols = -c(Yr,Mn), names_to = "station", 
                values_to = "CO2_concentration")
 ggplot(monthly_co2_tidy, aes(x=fct_reorder(station,CO2_concentration,na.rm=TRUE), y=CO2_concentration)) +
@@ -35,25 +77,47 @@ ggplot(monthly_co2_tidy, aes(x=fct_reorder(station,CO2_concentration,na.rm=TRUE)
 
 The monthly CO2 concentration in this graph is basically the CO2 concentration of all the months. From this graph, we can conclude that the median monthly CO2 concentration values are similar accross all the stations except for the Alert Station. The Alert Station has a median of more than 400, while the median of others are approximately between 350 and 375. That's because the Alert Station started to record data only from 2011, so it has a small range. The highest monthly CO2 concentration also comes form the Alert Station, which is almost 425. Besides the Alert Station, Cape Kumukahi Station and American Samoa Station have higher monthly CO2 concentration than Kermadec Island Station than the other three stations. The data for Mauna Loa Observatory is the most sparse because it is the earliest station to record data, and that's why its median is the lowest. There are no outliers.
 
-### Time: different months
+### Location: air pressure
+
 ```{r}
-monthly_co2_tidy %>% filter(Yr > 2000) %>% 
-  filter(Yr < 2021) %>% filter(station %in% c('mlo', 'kum')) %>% 
-  na.omit() %>% 
-  group_by(Mn) %>%
-  mutate(n = sum(CO2_concentration)) %>%
-  ungroup() %>% 
-  select(Mn, n) %>% 
-  unique() %>% 
-  ggplot(aes(n, reorder(Mn, n))) +
-  geom_point() +
-  ggtitle("Monthly CO2 concentration") + 
-  xlab('CO2 concentration') +
-  ylab('Month') + 
+pressure <- read.csv("./data/flx_aircraft.csv")
+pressure$Pres. = as.factor(pressure$Pres.)
+ggplot(pressure, aes(x = CO2, group = Pres., fill = Pres.)) + geom_density(alpha = 0.5) + 
+  labs(x="CO2 concentration") + 
+  ggtitle("CO2 concentrations in different air pressure") +
+  scale_fill_manual( values = c("lightgreen","blue", "pink")) + 
   theme_grey(16)
 ```
 
-We use two stations both in the northern hemisphere from 2001 to 2020 to generate this graph. The CO2 concentration in this graph is the sum of the CO2 concentration of these two stations for each month. We can inspect that the CO2 concentration in each month shows great differences. In the summer, the CO2 concentration gets to a high level, while it is relatively low in spring and autumn. Regardless of year, March is the month where CO2 concentraion reach a exact low level contrasted to other months. We can conclude that there are some factors related to time causing such situation. Primarily, temperature and human activities are all vital influencing factor.
+Although we collect our data from three air pressures, no matter what air pressure is, CO2 concentrations are concentrated between 300 to 325. From this graph, we can also see that there are few outliers, which will be flagged as contaminated and moved from the final result.
+
+### Location: hemispheres
+
+```{r}
+monthly_co2$date <- paste(monthly_co2$Yr, monthly_co2$Mn, sep="-")
+monthly_co2_h_m <- monthly_co2 %>% filter(Yr > 2010) %>% filter(Yr < 2020) %>% select(date, mlo)
+monthly_co2_h_m <- pivot_longer(data = monthly_co2_h_m, cols = !date, names_to = "station", values_to = "CO2_concentration")
+g1 <- ggplot(monthly_co2_h_m, aes(x=fct_inorder(date), y=CO2_concentration, group=1)) + 
+  geom_line() + 
+  labs(x = "", y = "Monthly CO2") + 
+  ggtitle("Northern") +
+  scale_x_discrete(labels = NULL, breaks = NULL)
+may1 <- monthly_co2_h_m[str_detect(monthly_co2_h_m$date, "-5"),]
+g1 <- g1 + geom_point(data=may1,aes(x=fct_inorder(date), y=CO2_concentration), color="red")
+monthly_co2_h_s <- monthly_co2 %>% filter(Yr > 2010) %>% filter(Yr < 2020) %>% select(date, sam)
+monthly_co2_h_s <- pivot_longer(data = monthly_co2_h_s, cols = !date, names_to = "station", values_to = "CO2_concentration")
+g2 <- ggplot(monthly_co2_h_s, aes(x=fct_inorder(date), y=CO2_concentration, group=1)) + 
+  geom_line() + 
+  labs(x = "Date", y = "Monthly CO2") + 
+  ggtitle("Southern") +
+  scale_x_discrete(labels = NULL, breaks = NULL)
+jan <- subset(monthly_co2_h_s, endsWith(monthly_co2_h_s$date, "-1"))
+g2 <- g2 + geom_point(data=jan,aes(x=fct_inorder(date), y=CO2_concentration), color="blue")
+grid.arrange(g1,g2,
+             top = text_grob("CO2 concentration in different hemispheres"))
+```
+
+We select the year 2011 to 2019 as an example for both graphs. So the monthly CO2 concentration in this graph is basically the CO2 concentration of all the months from 2011 to 2019. We find that the northern hemisphere and the southern hemisphere have different trends for the monthly CO2 concentration. In the northern hemisphere, the red point represents the CO2 concentration for May, which is the peak of each year. Meanwhile, in the southern hemisphere, the blue point represents the CO2 concentration for January, which is almost the peak for most years. Due to different geographical locations, seasons and weather may differ, which results in different CO2 concentrations.
 
 ### Sea water features
 
@@ -65,8 +129,8 @@ sw_bats <- read_csv("./data/BATS.csv")
 sw_hawi <- read_csv("./data/HAWI.csv")
 sw_total <- rbind(sw_berm, sw_bats, sw_hawi)
 ggplot(sw_total, aes(x=DIC,y=Salinity)) + 
-  ggtitle("Salinity v.s DIC in BERM") + 
-  facet_wrap(~Station) +
+  ggtitle("Salinity v.s DIC in different stations") + 
+  facet_wrap(~Station) + 
   geom_hex(bins=30) + 
   scale_fill_gradient(low = "lightblue", high = "blue") + 
   theme_grey(16)
@@ -77,8 +141,8 @@ From the above graphs, we can see that there is somehow some relation between Sa
 ## CO2 changes during Covid-19 pandemic
 
 ```{r}
-df_covid <- na.omit(yearly_co2_tidy)[260:285,]
-ggplot(data = df_covid, aes(x = Yr, y = CO2_concentration, color = station)) +
+df_covid <- read.csv("./data/yearly_co2_tidy.csv")
+ggplot(data = df_covid[410:434,], aes(x = Yr, y = CO2_concentration, color = station)) +
   geom_line() +
   annotate("rect", xmin = 2020.2, xmax = 2021, alpha = .2, ymin = 402, ymax = 422) +
   labs(x = "year", y = "CO2 concentration") + 
@@ -86,3 +150,60 @@ ggplot(data = df_covid, aes(x = Yr, y = CO2_concentration, color = station)) +
 ```
 
 The shaded area is the time period during the Covid-19 pandemic. We select the time interval starting from 2020 March to present. And we want to focus on this interval to see if the pandemic affects the CO2 emission.
+
+### Increment ratio comparison
+
+```{r}
+covid_data <- read.csv("./data/monthly_co2_ratio.csv")
+covid_data$date <- as.factor(covid_data$date)
+covid_data$covid <-  ifelse(covid_data$date %like% "2020", "Yes", ifelse(covid_data$date %like% "2021", "Yes", "No"))
+data1 <- covid_data[15:161,] %>% select(-X) #2012-2013
+data2 <- covid_data[183:329,] %>% select(-X) #2018-2019
+data3 <- covid_data[351:497,] %>% select(-X) #2020-2021
+covid_data_yr1 <- rbind(data1, data3)
+covid_data_yr2 <- rbind(data2, data3)
+
+g1 <- ggplot(covid_data_yr1, aes(x = CO2_concentration_ratio, fill = covid)) + 
+  geom_histogram(color="#e9ecef", alpha=0.6, position = 'identity') +
+  scale_fill_manual(values=c("lightblue", "blue")) +
+  labs(x = "") +
+  theme(legend.position="none") +
+  ggtitle("2012-2013 v.s. 2020-2021")
+
+g2 <- ggplot(covid_data_yr2, aes(x = CO2_concentration_ratio, fill = covid)) + 
+  geom_histogram(color="#e9ecef", alpha=0.6, position = 'identity') +
+  labs(x = "", y = "") + 
+  scale_fill_manual(values=c("lightblue", "blue")) + 
+  ggtitle("2018-2019 v.s. 2020-2021")
+
+grid.arrange(g1, g2, nrow=1,
+             bottom = text_grob("monthly CO2 increment ratio"))
+```
+
+From the above graphs, it seems like the ranges of CO2 concentration increment ratio each month for covid and non-covid time periods are both between 0.98 and 1.02, and they are both bell shaped. Besides, we can see the differences between the blue and lightblue columns that the count of the increment ratio during covid pandemic is slightly smaller than that in normal time periods. But the differences are subtle as the x-scale we have is all spreading between small units 0.98 to 1.02, so we can say that during the past one and a half year, the increment of CO2 concentration was not largely affected by Covid-19. The trends are approximately the same. We can roughly infer that the Covid-19 pandemic does not have an significant impact on CO2 concentration.
+
+### Trend during pandemic
+
+```{r}
+df_total <- read.csv("./data/monthly_flask_co2_mlo.csv")
+df_normal <- df_total[699:719,] %>% select(Date, CO2.filled..ppm.)
+df_normal$Date <- df_normal$Date - 2018
+df_normal$Covid <- "No"
+df_covid <- df_total[723:744,] %>% select(Date, CO2.filled..ppm.)
+df_covid$Date <- df_covid$Date - 2020
+df_covid$Covid <- "Yes"
+
+df_combined <- rbind(df_normal, df_covid)
+slope_normal <- coef(lm(df_normal$CO2.filled..ppm. ~ df_normal$Date))[2]
+slope_covid <- coef(lm(df_covid$CO2.filled..ppm. ~ df_covid$Date))[2]
+
+ggplot(df_combined, aes(x = Date, y = CO2.filled..ppm., color = Covid)) + 
+  geom_point(alpha = 0.5) +
+  geom_smooth(method="lm") +
+  labs(x = "Standardized date", y="CO2") +
+  ggtitle("CO2 concentration in 2018-2019 v.s 2020-2021") +
+  annotate("text",x=1.7, y=408, color = "red", label=(paste0("slope==",slope_normal)),parse=TRUE) +
+  annotate("text",x=1.7, y=418, color = "blue", label=(paste0("slope==",slope_covid)),parse=TRUE)
+```
+
+We select 2018 March to 2019 November and compared to the Covid-19 pandemic (2020 March to 2021 November). We can see that the pattern for these two periods are generally the same. This is reasonable because the pattern is mainly affected by the seasonal sycle which is irrelevant to Covid-19. However, when we try to model the regression line for both data, we can see that the line are almost the same during this time interval (20 months), which is consistent to the observations above that there is no significant effects of Covid-19 on the CO2 concentration. But as displayed in the graph, the slopes vary. And the slope of the regression model during Covid is about half of that during normal times. Hence, in long run, we would assume that though the difference is not so visible during 20 months, it might have more significant influence on CO2 emissions. And it is possible that CO2 concentration will be somehow decreased more if the condition is going to last for a long time.

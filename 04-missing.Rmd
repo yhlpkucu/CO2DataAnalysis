@@ -1,12 +1,6 @@
 # Missing values
 
-We use a single file "monthly_flask_co2" as an example to analyze the missing data in our project.
-This file contains monthly co2 data collected from several different inspection stations, whose locations are shown
-in the figure below.
-
-![Inspection stations](./data/mlo_station_map.png)
-
-Read data from "monthly_flask_co2".
+We use a single file "monthly_flask_co2" as an example to analyze the missing data in our project and we can clearly see that there are a lot of missing values in this dataset.
 ```{r}
 library(ggplot2)
 library(tidyverse)
@@ -14,16 +8,6 @@ library(patchwork)
 monthly_co2 = read.csv("./data/monthly_flask_co2.csv")
 monthly_co2[1:10,]
 ```
-Variable description:  
-Yr: year  
-Mn: month  
-alt: Alert Station  
-mlo: Mauna Loa Observatory  
-kum: Cape Kumukahi Station  
-chr: Christmas Island Station  
-sam: American Samoa Station  
-ker: Kermadec Island Station  
-nzd: New Zealand Station  
 
 Firstly, we analysis its missing patterns.
 ```{r}

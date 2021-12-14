@@ -6,6 +6,9 @@ The data sources of this project are from [*Scipps CO2 Program*](https://scripps
 
 Atmospheric CO2 Data collected from active sampling station. Below is the information for each sampling station. We will be using the *Station Code* column representing each station throughout the project. And the location information is used for analysis in Chapter 5.
 
+Below is the map for the locations of several different inspection stations.
+![Inspection stations](./data/mlo_station_map.png)
+
 ```{r, echo=FALSE, results='asis'}
 library(tidyverse)
 names <- read_csv("./data/station_names.csv")

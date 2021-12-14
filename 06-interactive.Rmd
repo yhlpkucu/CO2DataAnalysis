@@ -1,3 +1,7 @@
 # Interactive component
 
+## Link to the interactive plots
 
+## Description
+
+## Instructions

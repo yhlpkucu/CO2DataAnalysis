@@ -17,3 +17,4 @@ In the project, we collected the observatory data from The Scripps CO2 program t
 
 In the following chapters, we will discuss these questions and provide some new insights on forecasting the future CO2 emissions.
 
+Click [here](https://github.com/yhlpkucu/CO2DataAnalysis) for more details about this project. Check out each `.Rmd` file for the code for each chapter.
