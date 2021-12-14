@@ -17,7 +17,7 @@ ggplot(data = na.omit(yearly_co2_tidy), aes(x = Yr, y = CO2_concentration, color
   theme_grey(16)
 ```
 
-The CO2 concentration in this graph is the average CO2 concentration of all the months of the whole year. From this graph, we can conclude that on the whole there are increasingly amount of C02 concentrations for all the stations year by year over time. And this trend is consistent for all sampling stations.
+The CO2 concentration in this graph is the average CO2 concentration of all the months of the whole year. From this graph, we can conclude that on the whole there are increasing amount of C02 concentrations for all the stations year by year over time. And this trend is consistent for all sampling stations.
 
 ### Adjusted data
 
@@ -58,7 +58,7 @@ monthly_co2_c_tidy %>% filter(Yr > 2000) %>%
   theme_grey(16)
 ```
 
-We use stations Mauna Loa Observatory and Cape Kumukahi Station, which are both in the northern hemisphere, from 2001 to 2020 to generate this graph. The CO2 concentration in this graph is the sum of the CO2 concentration of these two stations for each month. We can inspect that the CO2 concentration in each month shows great differences. In summer, the CO2 concentration gets to a high level, while it is relatively low in spring and autumn. Regardless of year, March is the month where CO2 concentraion reach a exact low level contrasted to other months. We can conclude that there are some factors related to time causing such situation. Primarily, temperature and human activities are all vital influencing factor.
+We use stations Mauna Loa Observatory and Cape Kumukahi Station, which are both in the northern hemisphere, from 2001 to 2020 to generate this graph. The CO2 concentration in this graph is the sum of the CO2 concentration of these two stations for each month. We can inspect that the CO2 concentration in each month shows great differences. In summer, the CO2 concentration gets to a high level, while it is relatively low in spring and autumn. Regardless of year, March is the month where the CO2 concentration reaches an exact low level contrasted to other months. We can conclude that there are some factors related to time causing such a situation. Primarily, temperature and human activities are all vital influencing factors.
 
 ### Location: sampling stations
 
@@ -75,7 +75,7 @@ ggplot(monthly_co2_tidy, aes(x=fct_reorder(station,CO2_concentration,na.rm=TRUE)
   theme_grey(16)
 ```
 
-The monthly CO2 concentration in this graph is basically the CO2 concentration of all the months. From this graph, we can conclude that the median monthly CO2 concentration values are similar accross all the stations except for the Alert Station. The Alert Station has a median of more than 400, while the median of others are approximately between 350 and 375. That's because the Alert Station started to record data only from 2011, so it has a small range. The highest monthly CO2 concentration also comes form the Alert Station, which is almost 425. Besides the Alert Station, Cape Kumukahi Station and American Samoa Station have higher monthly CO2 concentration than Kermadec Island Station than the other three stations. The data for Mauna Loa Observatory is the most sparse because it is the earliest station to record data, and that's why its median is the lowest. There are no outliers.
+The monthly CO2 concentration in this graph is basically the CO2 concentration of all the months. From this graph, we can conclude that the median monthly CO2 concentration values are similar across all the stations except for the Alert Station. The Alert Station has a median of more than 400, while the median of others is approximately between 350 and 375. That's because the Alert Station started to record data only from 2011, so it has a small range. The highest monthly CO2 concentration also comes from the Alert Station, which is almost 425. Besides the Alert Station, Cape Kumukahi Station and American Samoa Station have higher monthly CO2 concentrations than Kermadec Island Station than the other three stations. The data for Mauna Loa Observatory is the most sparse because it is the earliest station to record data, and that's why its median is the lowest. There are no outliers.
 
 ### Location: air pressure
 
@@ -136,7 +136,7 @@ ggplot(sw_total, aes(x=DIC,y=Salinity)) +
   theme_grey(16)
 ```
 
-From the above graphs, we can see that there is somehow some relation between Salinity and carbon in sea water. Sea water with higher salinity tend to have larger amount of dissolved inorganic carbon (DIC). This is a potential factor to the CO2 concentration differences.
+From the above graphs, we can see that there is somehow some relation between Salinity and carbon in sea water. Sea water with higher salinity tends to have a larger amount of dissolved inorganic carbon (DIC). This is a potential factor in the CO2 concentration differences.
 
 ## CO2 changes during Covid-19 pandemic
 
@@ -149,7 +149,7 @@ ggplot(data = df_covid[410:434,], aes(x = Yr, y = CO2_concentration, color = sta
   theme_grey(16)
 ```
 
-The shaded area is the time period during the Covid-19 pandemic. We select the time interval starting from 2020 March to present. And we want to focus on this interval to see if the pandemic affects the CO2 emission.
+The shaded area is the time period during the Covid-19 pandemic. We select the time interval starting from 2020 March to the present. And we want to focus on this interval to see if the pandemic affects CO2 emission.
 
 ### Increment ratio comparison
 
@@ -180,7 +180,7 @@ grid.arrange(g1, g2, nrow=1,
              bottom = "monthly CO2 increment ratio")
 ```
 
-From the above graphs, it seems like the ranges of CO2 concentration increment ratio each month for covid and non-covid time periods are both between 0.98 and 1.02, and they are both bell shaped. Besides, we can see the differences between the blue and lightblue columns that the count of the increment ratio during covid pandemic is slightly smaller than that in normal time periods. But the differences are subtle as the x-scale we have is all spreading between small units 0.98 to 1.02, so we can say that during the past one and a half year, the increment of CO2 concentration was not largely affected by Covid-19. The trends are approximately the same. We can roughly infer that the Covid-19 pandemic does not have an significant impact on CO2 concentration.
+From the above graphs, it seems like the ranges of CO2 concentration increment ratio each month for covid and non-covid time periods are both between 0.98 and 1.02, and they are both bell-shaped. Besides, we can see the differences between the blue and lightblue columns that the count of the increment ratio during covid pandemic is slightly smaller than that in normal time periods. But the differences are subtle as the x-scale we have is all spreading between small units 0.98 to 1.02, so we can say that during the past one and a half years, the increment of CO2 concentration was not largely affected by Covid-19. The trends are approximately the same. We can roughly infer that the Covid-19 pandemic does not have a significant impact on CO2 concentration.
 
 ### Trend during pandemic
 
@@ -206,4 +206,4 @@ ggplot(df_combined, aes(x = Date, y = CO2.filled..ppm., color = Covid)) +
   annotate("text",x=1.7, y=418, color = "blue", label=(paste0("slope==",slope_covid)),parse=TRUE)
 ```
 
-We select 2018 March to 2019 November and compared to the Covid-19 pandemic (2020 March to 2021 November). We can see that the pattern for these two periods are generally the same. This is reasonable because the pattern is mainly affected by the seasonal sycle which is irrelevant to Covid-19. However, when we try to model the regression line for both data, we can see that the line are almost the same during this time interval (20 months), which is consistent to the observations above that there is no significant effects of Covid-19 on the CO2 concentration. But as displayed in the graph, the slopes vary. And the slope of the regression model during Covid is about half of that during normal times. Hence, in long run, we would assume that though the difference is not so visible during 20 months, it might have more significant influence on CO2 emissions. And it is possible that CO2 concentration will be somehow decreased more if the condition is going to last for a long time.
+We select data from 2018 March to 2019 November and compared it with the Covid-19 pandemic (2020 March to 2021 November). We can see that the pattern for these two periods is generally the same. This is reasonable because the pattern is mainly affected by the seasonal cycle which is irrelevant to Covid-19. However, when we try to model the regression line for both data, we can see that the line are almost the same during this time interval (20 months), which is consistent with the observations above that there are no significant effects of Covid-19 on the CO2 concentration. But as displayed in the graph, the slopes vary. And the slope of the regression model during Covid is about half of that during normal times. Hence, in long run, we would assume that though the difference is not so visible during 20 months, it might have a more significant influence on CO2 emissions. And it is possible that CO2 concentration will be somehow decreased more if the condition is going to last for a long time.
