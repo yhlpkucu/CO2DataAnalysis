@@ -2,6 +2,12 @@
 
 ## Link to the interactive plots
 
+Link: https://vizhub.com/yhlpkucu/3688a44c9ff74ce4ab11e38dafc86212?edit=files&file=index.html
+
 ## Description
 
+This interactive part contains two plots. One is a timeline showing the trend of CO2 concentration from 2019 to 2020. Another is a mutli-timeline showing the changing trend of different months in each year. We can compare any subsets of them. In our graph, we only take 4 years as example for clarity. Actually, we can use as many years as possible, and this interactive graph will be extreme useful to compare the trends of specific years.
+
 ## Instructions
+
+You can select which year's trend to be shown buy click on the button above the second graph. If the line has been shown and you click on it, this line will be hidden. If the line is hidden and you click on the button, this line will emerge.
